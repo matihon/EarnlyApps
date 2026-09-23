@@ -1,0 +1,2171 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="apple-touch-icon" href="logo.png">
+
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1,maximum-scale=1" name="viewport"/>
+<title>Earnly — Rewards</title>
+<style>
+:root{
+  --bg:#07111f;--card:#0d1b2e;--card2:#11243b;--text:#f5f8ff;--muted:#91a4bd;
+  --primary:#6c63ff;--cyan:#20d9ff;--green:#35e08a;--orange:#ffb84d;--red:#ff5f73;
+  --border:rgba(255,255,255,.09);--shadow:0 18px 50px rgba(0,0,0,.28);
+}
+*{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 20% 0%,#18265a 0,#07111f 42%,#050b14 100%);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;color:var(--text)}
+button,input,select{font:inherit} button{cursor:pointer}
+/* Prevent decorative layers from blocking form controls */
+.hero:after,.admin-overview-card:after{pointer-events:none}
+.admin-page,.admin-live-page,.admin-manage-page{position:relative}
+.admin-account-analytics,.admin-analytics-controls,.admin-date-input,.admin-life-btn,.field select,.field input{position:relative;z-index:2;pointer-events:auto}
+
+.app{width:min(100%,520px);margin:auto;min-height:100vh;padding-bottom:86px}
+.top{position:relative;padding:14px 118px 12px 18px;min-height:68px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;gap:11px;align-items:center}.logo{width:43px;height:43px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(135deg,var(--primary),var(--cyan));box-shadow:0 8px 28px #6c63ff55;font-size:22px}
+.brand b{font-size:19px}.brand small{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+.iconbtn{border:1px solid var(--border);background:#ffffff08;color:#fff;width:42px;height:42px;border-radius:14px}
+.page{display:none;padding:4px 16px}.page.active{display:block}
+.hero{padding:18px 18px 20px;border:1px solid var(--border);border-radius:25px;background:linear-gradient(145deg,#172b4a,#0b1729);box-shadow:var(--shadow);position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;background:#6c63ff2b;right:-70px;top:-80px;filter:blur(5px)}
+.eyebrow{color:#9eafff;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px}.balance{font-size:35px;font-weight:850;margin:5px 0}.balance span{font-size:16px;color:var(--muted);font-weight:600}.sub{color:var(--muted);font-size:13px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:15px}.stat{background:#ffffff08;border:1px solid var(--border);padding:12px;border-radius:16px}.stat b{font-size:17px}.stat small{display:block;color:var(--muted);margin-top:3px}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin:16px 0}.btn{border:0;border-radius:15px;padding:13px 14px;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--primary),#8a5cff);box-shadow:0 9px 25px #6c63ff33}.btn.alt{background:#ffffff09;border:1px solid var(--border);box-shadow:none}.btn{transition:filter .14s ease,opacity .14s ease,box-shadow .14s ease}.btn:active{transform:none;filter:brightness(.92);opacity:.94;box-shadow:0 4px 12px #6c63ff22}
+.section-title{display:flex;align-items:end;justify-content:space-between;margin:22px 2px 10px}.section-title h2{font-size:18px;margin:0}.section-title span{color:var(--muted);font-size:11px}
+.cards{display:grid;gap:12px}.plan{position:relative;padding:17px;border-radius:21px;background:linear-gradient(145deg,#10223a,#0b1728);border:1px solid var(--border);overflow:hidden;transition:.25s}.plan:hover{transform:translateY(-2px);border-color:#ffffff22}.plan.featured{border-color:#6c63ff88;box-shadow:0 12px 35px #6c63ff18}.badge{position:absolute;right:13px;top:13px;background:#6c63ff;color:#fff;padding:5px 9px;border-radius:20px;font-size:9px;font-weight:800}.plan-head{display:flex;gap:12px;align-items:center}.plan-icon{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:#ffffff0b;font-size:20px}.plan h3{margin:0;font-size:17px}.price{font-weight:850;font-size:23px;margin-top:2px}.price small{font-size:11px;color:var(--muted);font-weight:500}.details{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:13px 0}.pill{padding:9px;background:#ffffff06;border-radius:11px;font-size:11px;color:#b9c8db}.pill b{display:block;color:#fff;font-size:13px;margin-top:2px}.plan .btn{width:100%;padding:11px}
+.notice{margin-top:14px;padding:11px 13px;border-radius:13px;background:#ffb84d0d;border:1px solid #ffb84d22;color:#d9c49d;font-size:10px;line-height:1.45}
+.adbox{margin-top:16px;padding:18px;border-radius:23px;background:linear-gradient(145deg,#142944,#0b1728);border:1px solid var(--border);text-align:center}.adcircle{width:92px;height:92px;border-radius:50%;margin:5px auto 14px;display:grid;place-items:center;background:conic-gradient(var(--cyan) 0deg,#ffffff10 0deg);position:relative}.adcircle:before{content:"";position:absolute;inset:7px;border-radius:50%;background:#0c1a2d}.adcircle b{position:relative;font-size:21px}.adbox h3{margin:4px 0}.adbox p{font-size:12px;color:var(--muted);margin:5px 0 15px}.watch{width:100%}
+.form{display:grid;gap:11px}.field{background:#ffffff06;border:1px solid var(--border);border-radius:15px;padding:12px}.field label{display:block;color:var(--muted);font-size:10px;margin-bottom:5px}.field input,.field select{width:100%;border:0;outline:0;background:#0d1b2e;color:#fff;font-size:14px;min-height:40px;border-radius:10px;padding:0 10px;box-sizing:border-box}.field select{display:block;appearance:auto;-webkit-appearance:menulist;cursor:pointer}.field select option{background:#0d1b2e;color:#fff}.admin-tabs{display:flex;gap:7px;overflow:auto;margin:12px 0}.admin-tab{border:1px solid var(--border);background:#ffffff08;color:inherit;border-radius:10px;padding:9px 12px;font-size:11px;white-space:nowrap;cursor:pointer}.admin-tab.active{background:#ffffff16}.admin-section{display:none}.admin-section.active{display:block}.admin-search{width:100%;box-sizing:border-box;border:1px solid var(--border);background:#ffffff08;color:inherit;border-radius:10px;padding:11px;font-size:12px;outline:none;margin:8px 0}.admin-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:10px 0}.admin-stat{padding:10px;border:1px solid var(--border);border-radius:12px;background:#ffffff06}.admin-stat b{display:block;font-size:16px;margin-top:3px}.notify-list{display:grid;gap:8px;margin-top:12px}.notify-item{padding:12px;border:1px solid var(--border);border-radius:12px;background:#ffffff06}.notify-item.unread{background:#ffffff0c}.notify-item small{display:block;color:var(--muted);margin-top:4px}.notify-actions{display:flex;justify-content:flex-end;margin-top:8px}.admin-item small{display:block;margin-top:3px;color:var(--muted)}.history{display:grid;gap:8px;margin-top:12px}.row{display:flex;justify-content:space-between;align-items:center;padding:13px;border-radius:15px;background:#ffffff06;border:1px solid var(--border);font-size:12px}.row small{display:block;color:var(--muted);margin-top:3px}.plus{color:var(--green);font-weight:800}.minus{color:var(--orange);font-weight:800}
+.bottom{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);width:min(calc(100% - 24px),500px);padding:8px;background:rgba(9,20,35,.94);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.10);border-radius:22px;display:grid;grid-template-columns:repeat(5,1fr);gap:5px;z-index:20;box-shadow:0 15px 45px rgba(0,0,0,.42)}.nav{border:0;background:transparent;color:#7387a2;padding:7px 3px 6px;border-radius:16px;font-size:10px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:4px;transition:.08s}.navicon{width:34px;height:30px;border-radius:11px;display:grid;place-items:center;background:transparent;transition:.25s}.navicon svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}.nav.active .navicon svg{filter:drop-shadow(0 0 7px rgba(110,100,255,.8))}.nav.active{color:#fff;background:linear-gradient(135deg,#6c63ff2b,#20d9ff0d);box-shadow:inset 0 0 0 1px #ffffff10}.nav.active .navicon{background:linear-gradient(135deg,var(--primary),#795dff);box-shadow:0 5px 15px #6c63ff55;color:#fff;transform:translateY(-1px)}.nav:active{transform:none;filter:brightness(.9);opacity:.92}
+.activeplan{margin:12px 0 16px;padding:13px 14px;border:1px solid #6c63ff33;background:linear-gradient(110deg,#6c63ff16,#20d9ff08);border-radius:18px;display:flex;justify-content:space-between;align-items:center}.activeplan-left{display:flex;gap:10px;align-items:center}.activeplan-icon{width:39px;height:39px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,#6c63ff,#20bfe8);font-size:17px;box-shadow:0 7px 20px #6c63ff35}.activeplan small,.planmini small{display:block;color:#8498b3;font-size:8px;font-weight:800;letter-spacing:1px}.activeplan b{display:block;font-size:14px;margin-top:2px}.activeplan span{display:block;color:#8fa3bc;font-size:10px;margin-top:2px}.active-status{font-size:9px;font-weight:800;color:var(--green);display:flex;align-items:center;gap:5px}.active-status i{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 9px var(--green)}.planmini{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;margin-bottom:12px;border-radius:16px;background:#ffffff06;border:1px solid var(--border)}.planmini b{display:block;font-size:13px;margin-top:3px}.planmini strong{font-size:12px;color:var(--cyan)}.toast{position:fixed;top:18px;left:50%;transform:translate(-50%,-120px);background:#15263d;border:1px solid var(--border);padding:11px 15px;border-radius:13px;font-size:12px;z-index:50;transition:.12s;box-shadow:var(--shadow)}.toast.show{transform:translate(-50%,0)}
+.modal{position:fixed;inset:0;background:#020812aa;backdrop-filter:blur(8px);display:none;align-items:end;justify-content:center;z-index:40}.modal.show{display:flex}.sheet{width:min(100%,520px);background:#0c192b;border:1px solid var(--border);border-radius:25px 25px 0 0;padding:20px;animation:up .25s ease}.sheet h3{margin:0 0 14px}@keyframes up{from{transform:translateY(100%)}to{transform:translateY(0)}} 
+@media(min-width:521px){.app{border-left:1px solid #ffffff05;border-right:1px solid #ffffff05}}
+
+
+.profile-hero{display:flex;align-items:center;gap:14px;margin-top:14px;padding:18px}
+.avatar{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;font-size:24px;font-weight:800;background:linear-gradient(135deg,#6d5dfc,#24d6a3);box-shadow:0 10px 30px rgba(76,65,255,.25)}
+.profile-main{min-width:0}.profile-name{font-size:20px;font-weight:800}@media(max-width:380px){.profile-hero{gap:10px;padding:15px}.profile-name{font-size:18px}}.profile-id{font-size:12px;opacity:.65;margin-top:5px;display:flex;align-items:center;gap:5px}.copy-mini{border:0;background:rgba(255,255,255,.08);color:inherit;border-radius:7px;padding:4px 7px;font-size:10px}.status-pill{display:inline-flex;align-items:center;gap:5px;margin-top:9px;font-size:11px;padding:5px 9px;border-radius:999px;background:rgba(44,210,143,.1);color:#42dca0}.status-pill span{width:6px;height:6px;border-radius:50%;background:#42dca0}
+.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.stat-card{padding:14px;border:1px solid rgba(255,255,255,.07);border-radius:16px;background:rgba(255,255,255,.035)}.stat-card span{font-size:18px}.stat-card b{display:block;margin-top:8px;font-size:15px}.stat-card small{display:block;margin-top:3px;opacity:.55;font-size:11px}
+.referral-box{margin-top:12px;padding:15px;border:1px solid rgba(255,255,255,.07);border-radius:16px;background:rgba(255,255,255,.035)}.referral-code{display:flex;gap:8px;align-items:center;margin-top:10px}.referral-code input{flex:1}.referral-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.referral-stat{padding:10px;border-radius:12px;background:rgba(255,255,255,.04);font-size:11px}.referral-stat b{display:block;font-size:15px;margin-top:4px}.referral-list{margin-top:10px}.referral-item{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:12px}.referral-item:last-child{border-bottom:0}.referral-item small{display:block;opacity:.55;margin-top:3px}.referral-pending{color:var(--orange)}.referral-paid{color:#42dca0}.profile-details{margin-top:12px}.section-title{font-weight:800;margin-bottom:5px}.detail-row{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:12px}.detail-row:last-child{border-bottom:0}.detail-row span{opacity:.58}.detail-row strong{text-align:right}.green{color:#42dca0}.full-btn{width:100%;border:0;border-radius:14px;padding:14px;margin-top:10px;font-weight:800;color:inherit;background:rgba(255,255,255,.07)}.full-btn.secondary{background:linear-gradient(135deg,#35336d,#272554)}.full-btn.danger{background:rgba(255,82,110,.08);color:#ff7188}
+.whatsapp-service-btn{display:flex;align-items:center;gap:11px;width:100%;margin-top:12px;padding:12px 14px;border-radius:14px;background:rgba(37,211,102,.09);border:1px solid rgba(37,211,102,.24);color:#f4f8ff;text-decoration:none;box-sizing:border-box}.whatsapp-service-icon{width:36px;height:36px;flex:0 0 36px;border-radius:11px;display:grid;place-items:center;background:rgba(37,211,102,.16);color:#5ee58a;font-size:19px}.whatsapp-service-btn b{display:block;font-size:12px;line-height:1.25}.whatsapp-service-btn small{display:block;margin-top:3px;color:#9fb0c5;font-size:10px}.whatsapp-service-btn:active{filter:brightness(.92)}
+
+
+.history-more{display:flex;justify-content:center;margin-top:9px}.history-more-btn{border:1px solid var(--border);background:#ffffff08;color:inherit;border-radius:11px;padding:9px 16px;font-size:11px;font-weight:800;cursor:pointer}.history-more-btn{transition:filter .14s ease,opacity .14s ease}.history-more-btn:active{transform:none;filter:brightness(.9);opacity:.92}.history-status{font-size:10px;font-weight:850;padding:4px 8px;border-radius:999px;display:inline-block;margin-top:4px}.history-status.pending{color:#ffb454;background:#ffb45418}.history-status.approved{color:#42dca0;background:#42dca018}.history-status.rejected{color:#ff7188;background:#ff718818}
+
+.admin-page{padding:14px 16px 110px!important}
+.admin-live-page,.admin-manage-page{box-sizing:border-box;width:100%;max-width:520px;margin:0 auto;padding:14px 16px 110px!important;background:radial-gradient(circle at 80% 0%,rgba(108,99,255,.20),transparent 34%),radial-gradient(circle at 10% 25%,rgba(0,205,150,.10),transparent 28%)}
+.admin-live-card{padding:22px 16px;border:1px solid var(--border);border-radius:24px;background:linear-gradient(145deg,#ffffff0b,#ffffff03);box-shadow:0 14px 38px rgba(0,0,0,.14);text-align:center}
+.admin-live-number{font-size:58px;line-height:1;font-weight:900;letter-spacing:-2px;margin:18px 0 8px}
+.admin-live-dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#42dca0;box-shadow:0 0 12px #42dca0;vertical-align:middle;margin-right:6px}
+.admin-live-meta{color:var(--muted);font-size:11px;line-height:1.5}
+.admin-live-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:16px}
+.admin-live-actions button{margin-top:0!important}
+.admin-page,.admin-live-page,.admin-manage-page{box-sizing:border-box;width:100%;max-width:520px;margin-left:auto;margin-right:auto}
+@media(min-width:521px){.admin-manage-page .admin-topbar,.admin-live-page .admin-topbar{padding:8px 2px 18px}.admin-manage-page .admin-overview{gap:12px;margin-bottom:16px}.admin-manage-page .admin-card-body{padding:16px;border-radius:20px}.admin-live-card{margin:0 2px;padding:24px 20px;border-radius:22px}}
+@media(max-width:360px){.admin-live-page,.admin-manage-page{padding-left:12px!important;padding-right:12px!important}.admin-manage-page .admin-card-body{padding:13px}}
+
+.admin-topbar{display:flex;align-items:center;gap:12px;padding:6px 2px 16px}.admin-topbar h2{margin:2px 0 3px;font-size:25px;letter-spacing:-.6px}.admin-topbar p{margin:0;color:var(--muted);font-size:11px}.admin-back{width:42px;height:42px;border-radius:14px;border:1px solid var(--border);background:#ffffff09;color:inherit;font-size:22px;flex:0 0 auto}.admin-shield{margin-left:auto;width:45px;height:45px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(135deg,#393476,#202044);border:1px solid rgba(130,120,255,.35);font-size:20px;box-shadow:0 10px 28px rgba(0,0,0,.18)}.admin-overview{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-bottom:12px}.admin-overview-card{position:relative;padding:15px;border-radius:18px;background:linear-gradient(145deg,#ffffff0b,#ffffff04);border:1px solid var(--border);box-shadow:0 10px 30px rgba(0,0,0,.12);overflow:hidden}.admin-overview-card:after{content:"";position:absolute;width:55px;height:55px;border-radius:50%;right:-22px;top:-22px;background:#776eff18}.admin-overview-card span{font-size:18px}.admin-overview-card small{display:block;color:var(--muted);font-size:10px;margin-top:8px}.admin-overview-card b{display:block;font-size:23px;margin-top:2px}.admin-card-body{padding:13px;border:1px solid var(--border);border-radius:22px;background:linear-gradient(145deg,#ffffff09,#ffffff03);box-shadow:0 14px 38px rgba(0,0,0,.14)}.admin-title-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:2px}.admin-title-row b{font-size:15px}.admin-title-row small{display:block;color:var(--muted);font-size:10px;margin-top:3px}.admin-live{font-size:9px;color:#58e5ae;font-weight:900;letter-spacing:.7px}.admin-live:first-letter{font-size:14px}.admin-page .admin-tabs{margin:14px 0;gap:8px;padding-bottom:2px}.admin-page .admin-tab{padding:11px 14px;border-radius:12px;background:#ffffff06}.admin-page .admin-tab.active{background:linear-gradient(135deg,#6c63ff,#4c45b8);border-color:transparent;box-shadow:0 7px 18px rgba(76,69,184,.25)}.admin-page .admin-item{background:#ffffff07;border-radius:17px;padding:14px;margin-top:9px}.admin-page .admin-stats{grid-template-columns:repeat(2,1fr);gap:9px}.admin-page .admin-stat{border-radius:15px;padding:12px;background:#ffffff07}.admin-page .admin-btn{padding:11px 12px;border-radius:12px}.admin-page .admin-search{padding:13px;border-radius:13px;background:#ffffff07}.admin-page .admin-section{min-height:90px}.admin-page .row{border-radius:15px}.admin-page .admin-actions{gap:9px}
+.admin-card{margin-top:14px}.admin-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.admin-status{font-size:10px;color:var(--muted);margin-top:8px}.admin-item{padding:13px;border:1px solid var(--border);border-radius:15px;background:#ffffff06;margin-top:8px}.admin-item-head{display:flex;justify-content:space-between;gap:10px;align-items:start}.admin-item small{display:block;color:var(--muted);margin-top:4px}.admin-btn{border:0;border-radius:10px;padding:9px 10px;font-size:11px;font-weight:800;color:#fff}.admin-approve{background:#1d9b65}.admin-reject{background:#9b3045}.admin-proof{background:#ffffff10;border:1px solid var(--border)}
+.admin-access{width:100%;border:1px solid rgba(108,99,255,.35);border-radius:14px;padding:14px;margin-top:10px;font-weight:800;color:#fff;background:linear-gradient(135deg,#35336d,#272554);display:none}
+
+
+
+.auth-card{text-align:center;margin-top:14px;padding:22px}.auth-icon{font-size:34px;margin-bottom:8px}.auth-card h3{margin:0;font-size:19px}.auth-card p{font-size:12px;opacity:.58;line-height:1.5}.auth-input{width:100%;box-sizing:border-box;margin-top:9px;padding:13px;border:1px solid rgba(255,255,255,.08);border-radius:12px;background:rgba(255,255,255,.045);color:inherit;outline:none}.auth-input:focus{border-color:rgba(112,95,255,.8);box-shadow:0 0 0 3px rgba(112,95,255,.12)}.auth-note{font-size:10px;opacity:.45;margin-top:12px;line-height:1.4}.auth-switch{background:transparent!important;border:1px solid rgba(255,255,255,.08)}
+
+
+
+#notificationDot{position:absolute;right:7px;top:7px;width:7px;height:7px;border-radius:50%;background:#ff5575;box-shadow:0 0 0 2px rgba(10,12,25,.9)}
+.notification-back-btn{display:inline-flex;align-items:center;justify-content:center;margin:0 0 12px;padding:10px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.055);color:#f5f8ff;font-size:12px;font-weight:800;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.notification-back-btn:active{filter:brightness(.92)}
+
+
+.top-actions{
+  position:absolute;
+  top:14px;
+  right:max(14px, calc((100vw - 520px)/2 + 14px));
+  z-index:60;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.top-action-btn{
+  position:relative;
+  width:40px;
+  height:40px;
+  padding:0;
+  margin:0;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:12px;
+  background:rgba(255,255,255,.055);
+  color:inherit;
+  display:grid;
+  place-items:center;
+  cursor:pointer;
+  box-sizing:border-box;
+  box-shadow:0 6px 18px rgba(0,0,0,.12);
+  -webkit-tap-highlight-color:transparent;
+}
+.top-action-btn:active{transform:scale(.94)}
+.top-action-btn svg{
+  width:18px;
+  height:18px;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.8;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.profile-action svg{width:19px;height:19px}
+.notification-dot{
+  position:absolute;
+  top:7px;
+  right:7px;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:#ff5575;
+  border:2px solid #111321;
+  box-sizing:content-box;
+}
+
+
+/* Admin date/account analytics */
+.admin-account-analytics{margin:0 0 14px;padding:16px;border:1px solid var(--border);border-radius:22px;background:linear-gradient(145deg,#ffffff09,#ffffff03);box-shadow:0 12px 32px rgba(0,0,0,.12)}
+.admin-analytics-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.admin-analytics-head b{font-size:15px}.admin-analytics-head small{display:block;color:var(--muted);font-size:10px;margin-top:3px}
+.admin-analytics-controls{display:grid;grid-template-columns:1fr auto;gap:8px;margin-bottom:12px}
+.admin-date-input{width:100%;box-sizing:border-box;border:1px solid var(--border);background:#ffffff08;color:inherit;border-radius:12px;padding:11px 12px;font-size:12px;outline:none;min-height:42px}
+.admin-date-input::-webkit-calendar-picker-indicator{filter:invert(1);opacity:.8}
+.admin-life-btn{border:1px solid var(--border);background:#ffffff08;color:inherit;border-radius:12px;padding:0 14px;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap}
+.admin-life-btn.active{background:linear-gradient(135deg,#6c63ff,#4c45b8);border-color:transparent}
+.admin-analytics-label{font-size:10px;color:var(--muted);margin-bottom:9px}
+.admin-plan-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.admin-plan-card{padding:12px 9px;border:1px solid var(--border);border-radius:14px;background:#ffffff06;text-align:center;min-width:0}
+.admin-plan-card small{display:block;color:var(--muted);font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.admin-plan-card b{display:block;font-size:20px;margin-top:3px}
+.admin-new-count{margin-bottom:9px;padding:12px;border:1px solid var(--border);border-radius:14px;background:#ffffff07;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.admin-new-count small{color:var(--muted);font-size:10px}.admin-new-count b{font-size:20px}
+@media(max-width:380px){.admin-plan-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.admin-analytics-controls{grid-template-columns:1fr}.admin-life-btn{min-height:42px}}
+
+.admin-notify-page{box-sizing:border-box;width:100%;max-width:520px;margin:0 auto;padding:14px 16px 110px!important;background:radial-gradient(circle at 80% 0%,rgba(108,99,255,.16),transparent 34%),radial-gradient(circle at 10% 25%,rgba(0,205,150,.08),transparent 28%)}
+.admin-notify-card{border:1px solid var(--border);border-radius:20px;background:rgba(255,255,255,.035);padding:14px;box-shadow:0 12px 32px rgba(0,0,0,.12)}
+.admin-notify-recipient-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.admin-notify-search{width:100%;box-sizing:border-box;margin:0 0 9px;padding:12px 13px;border-radius:12px;border:1px solid var(--border);background:rgba(255,255,255,.045);color:inherit;outline:none}
+.admin-notify-user-list{max-height:250px;overflow:auto;border:1px solid var(--border);border-radius:14px;margin-bottom:12px}
+.admin-notify-user{display:flex;align-items:center;gap:10px;padding:11px 12px;border-bottom:1px solid rgba(255,255,255,.055);cursor:pointer}
+.admin-notify-user:last-child{border-bottom:0}
+.admin-notify-user input{width:18px;height:18px;accent-color:#7c72ff}
+.admin-notify-user-info{min-width:0;flex:1}.admin-notify-user-info b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.admin-notify-user-info small{display:block;opacity:.55;margin-top:2px}
+.admin-notify-selected{font-size:11px;opacity:.65;margin:7px 0 10px}.admin-notify-field{margin-top:10px}.admin-notify-field label{display:block;font-size:11px;opacity:.65;margin-bottom:6px}.admin-notify-field input,.admin-notify-field textarea{width:100%;box-sizing:border-box;border:1px solid var(--border);border-radius:12px;background:rgba(255,255,255,.045);color:inherit;padding:12px;outline:none;font:inherit}.admin-notify-field textarea{min-height:120px;resize:vertical}.admin-notify-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.admin-notify-actions button{margin-top:0!important}@media(max-width:360px){.admin-notify-page{padding-left:12px!important;padding-right:12px!important}}
+
+/* ===== ACCESSIBLE NOTIFICATION COLOUR REFRESH ===== */
+.notify-list{gap:10px}
+.notify-item{color:#f4f7fb;background:#111a2b;border:1px solid #2b3a52;border-radius:16px;padding:14px;box-shadow:0 8px 20px rgba(0,0,0,.18)}
+.notify-item b{display:block;color:#ffffff;font-size:13px;line-height:1.35;margin-bottom:6px}
+.notify-item>div:not(.notify-actions){color:#d7e0ec;font-size:12px;line-height:1.55;overflow-wrap:anywhere}
+.notify-item small{color:#9fb0c5!important;font-size:10px;line-height:1.4}
+.notify-item.unread{background:linear-gradient(135deg,#17233a,#131d30);border-color:#6558e8;box-shadow:0 8px 24px rgba(83,70,190,.16)}
+.notify-item.unread b{color:#ffffff}
+.notify-actions{display:flex;justify-content:flex-start;align-items:center;margin-top:11px}
+.notify-actions .admin-btn{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:9px 14px;border:1px solid #786cff;border-radius:11px;background:linear-gradient(135deg,#6f63ff,#5147c7);color:#ffffff!important;font-size:11px;font-weight:800;letter-spacing:.1px;box-shadow:0 6px 16px rgba(91,79,210,.28);cursor:pointer}
+.notify-actions .admin-btn:hover{filter:brightness(1.08)}
+.notify-actions .admin-btn{transition:filter .14s ease,opacity .14s ease,box-shadow .14s ease}.notify-actions .admin-btn:active{transform:none;filter:brightness(.9);opacity:.94;box-shadow:0 3px 9px rgba(91,79,210,.2)}
+.admin-notify-page{color:#f4f7fb;background:radial-gradient(circle at 85% 0%,rgba(109,93,252,.18),transparent 34%),radial-gradient(circle at 8% 30%,rgba(32,217,255,.08),transparent 28%)}
+.admin-notify-card{background:#0f1828;border-color:#2a3951;box-shadow:0 16px 40px rgba(0,0,0,.25)}
+.admin-notify-field label{color:#b9c5d5!important;opacity:1;font-weight:700}
+.admin-notify-search,.admin-notify-field input,.admin-notify-field textarea{background:#0b1322;color:#f4f7fb;border-color:#314158}
+.admin-notify-search::placeholder,.admin-notify-field input::placeholder,.admin-notify-field textarea::placeholder{color:#718199;opacity:1}
+.admin-notify-search:focus,.admin-notify-field input:focus,.admin-notify-field textarea:focus{border-color:#756aff;box-shadow:0 0 0 3px rgba(117,106,255,.14)}
+.admin-notify-search option{background:#0f1828;color:#f4f7fb}
+.admin-notify-user-list{background:#0b1322;border-color:#314158}
+.admin-notify-user{color:#eef3f9;border-bottom-color:#233148}
+.admin-notify-user:hover{background:#141f33}
+.admin-notify-user:has(input:checked){background:#1a2340}
+.admin-notify-user input{accent-color:#756aff}
+.admin-notify-user-info b{color:#ffffff}
+.admin-notify-user-info small{color:#9eacc0;opacity:1}
+.admin-notify-selected{color:#aebbd0;opacity:1;background:#151f31;border:1px solid #2b3b54;border-radius:10px;padding:9px 10px}
+.admin-notify-recipient-row{grid-template-columns:1fr 1fr;gap:9px}
+.admin-notify-recipient-row .admin-btn{width:100%;min-height:42px;border:1px solid #6659e8;border-radius:12px;background:linear-gradient(135deg,#6659e8,#4b42bd);color:#ffffff!important;font-size:11px;font-weight:800;box-shadow:0 6px 16px rgba(86,74,205,.22);cursor:pointer}
+.admin-notify-recipient-row .admin-btn:not(.active){background:#182337;border-color:#3b4b65;color:#e7edf5!important;box-shadow:none}
+.admin-notify-recipient-row .admin-btn:hover{filter:brightness(1.08)}
+.admin-notify-recipient-row .admin-btn{transition:filter .14s ease,opacity .14s ease,box-shadow .14s ease}.admin-notify-recipient-row .admin-btn:active{transform:none;filter:brightness(.9);opacity:.94;box-shadow:0 3px 9px rgba(86,74,205,.18)}
+.admin-notify-actions .full-btn{min-height:44px;color:#ffffff!important}
+.admin-notify-actions .full-btn.secondary{background:linear-gradient(135deg,#6c63ff,#5048c8);border:1px solid #756aff}
+.admin-notify-actions .full-btn:not(.secondary){background:#182337;border:1px solid #3b4b65;color:#e8eef6!important}
+.admin-notify-actions .full-btn:disabled{opacity:.55;cursor:not-allowed}
+.admin-topbar h2{color:#ffffff}
+.admin-topbar p{color:#aab8ca}
+.admin-topbar .eyebrow{color:#8f87ff}
+.admin-shield{background:#171f35!important;border-color:#394967!important}
+
+
+/* Clean tap feedback: no shrinking/jumping buttons */
+button, .admin-btn, .full-btn, .iconbtn, .copy-mini, select { -webkit-tap-highlight-color: transparent; }
+button { touch-action: manipulation; }
+button:focus-visible { outline: 2px solid rgba(120,110,255,.75); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; } }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = 'https://loincajtdxbkfifezbhl.supabase.co'; // Base project URL ONLY — do not add /rest/v1
+const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_dXsbKbneAADXa2zLeYdHsg_sf2bR5xp';
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+</script>
+</head>
+<body><div class="top-actions">
+<button aria-label="Notifications" class="top-action-btn" id="notificationBtn" onclick="showNotifications()">
+<svg viewbox="0 0 24 24"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
+<span class="notification-dot" id="notificationDot"></span>
+</button>
+<button aria-label="Profile" class="top-action-btn" id="profileTopBtn" onclick="openAccountPanel()">
+<svg viewbox="0 0 24 24"><circle cx="12" cy="8" r="3.4"></circle><path d="M5.5 20c.7-3.2 2.8-5 6.5-5s5.8 1.8 6.5 5"></path></svg>
+</button>
+</div>
+<div class="toast" id="toast"></div>
+<div class="app">
+<header class="top">
+<div class="brand"><div class="logo">₿</div><div><b>Earnly</b><small>Rewards</small></div></div>
+</header>
+<main>
+<section class="page active" id="home">
+<div class="hero">
+<div class="eyebrow">Available balance</div>
+<div class="balance">PKR <span id="balance">0.00</span></div>
+<div class="sub">Keep completing eligible activities to increase your balance.</div>
+<div class="stats"><div class="stat"><b id="today">0.00</b><small>Today's earnings</small></div><div class="stat"><b id="homeTotalEarnings">PKR 0.00</b><small>Total earnings</small></div></div>
+</div>
+<div class="activeplan">
+<div class="activeplan-left"><div class="activeplan-icon">✦</div><div><small>ACTIVE PLAN</small><b id="activePlanName">Free Plan</b><span id="activePlanReward">PKR 2 per ad • 6 ads/day</span></div></div>
+<div class="active-status"><i></i> Active</div>
+</div>
+<div class="actions"><button class="btn" onclick="go('ads')">▶ Watch Ads</button><button class="btn alt" onclick="go('deposit')">＋ Deposit</button></div>
+<div class="section-title"><h2>Choose a plan</h2><span>Configuration</span></div>
+<div class="cards" id="plans"></div>
+<div class="notice">Pakistani No#1 ad watching application-Rigester in Pakistan.</div>
+</section>
+<section class="page" id="ads">
+<div class="section-title"><h2>Watch &amp; Earn</h2><span id="adsPlanLabel">Free Plan</span></div>
+<div class="planmini"><div><small>Currently active</small><b id="adsActivePlan">Free Plan</b></div><strong id="adsReward">PKR 2 / ad</strong></div>
+<div class="hero" style="padding:14px 15px;margin-bottom:12px">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<div><div class="eyebrow">Today's ads</div><div style="font-size:25px;font-weight:850"><span id="watched">0</span> <span style="font-size:14px;color:var(--muted);font-weight:600">watched</span></div></div>
+<div style="text-align:right"><div class="eyebrow">Remaining</div><div id="remaining" style="font-size:25px;font-weight:850;color:var(--cyan)">6</div></div>
+</div>
+<div style="height:7px;background:#ffffff0d;border-radius:99px;margin-top:12px;overflow:hidden"><div id="progress" style="height:100%;width:0%;background:linear-gradient(90deg,var(--primary),var(--cyan));border-radius:99px;transition:.4s"></div></div>
+</div>
+<div class="adbox">
+<div class="adcircle" id="circle"><b id="timer">15</b></div>
+<h3>Sponsored Activity</h3><p>Complete the timer ad are running in background.</p>
+<button class="btn watch" id="watchBtn" onclick="startAd()">Start Ad • Earn</button>
+</div>
+<div class="section-title"><h2>Today's activity</h2><span id="adsActivityLabel">0 of 6</span></div>
+<div class="history" id="adHistory"><div class="row"><div>No ads completed yet<small>Complete your first ad to see it here.</small></div><b>—</b></div></div>
+</section>
+<section class="page" id="deposit">
+<div class="section-title"><h2>Deposit</h2><span>Manual payment</span></div>
+<div class="hero">
+<div class="form" style="margin-top:0">
+<div class="field"><label>Choose plan</label><select aria-label="Choose plan" id="depPlan" name="depPlan" onchange="selectDepositPlanByDropdown(this.value)"><option selected="" value="">Select a plan</option><option value="Free">Free — PKR 0</option><option value="Starter">Starter — PKR 1,000</option><option value="Pro">Pro — PKR 2,000</option><option value="Premium">Premium — PKR 3,000</option></select></div>
+<div class="field"><label>Payment method</label><select id="depMethod"><option>Easypaisa</option><option>Only Easypaisa</option></select></div>
+<div class="field"><label>Account number</label><div style="display:flex;gap:8px;align-items:center"><input id="accountNumber" readonly="" value="03498274628"/><button class="iconbtn" onclick="copyAccount()" style="width:36px;height:36px">⧉</button></div></div>
+<div class="field"><label>Account title</label><input readonly="" value="Mati UR Rahman"/></div>
+<div class="field"><label>Amount (PKR)</label><input id="depAmt" placeholder="Enter plan amount" type="number"/></div>
+<div class="field"><label>Payment proof</label><input accept="image/*,.pdf" id="proof" type="file"/></div>
+<button class="btn" onclick="deposit()">Submit Payment Proof</button>
+</div>
+</div>
+<div class="notice"><b style="color:#fff">Approval status:</b> After submitting your payment proof, your plan remains <b>Pending Approval</b> until an admin verifies the payment. Your selected plan will activate after approval, it take 10 to 15 min.</div>
+<div class="row" id="depositStatus" style="display:none;margin-top:12px"><div>Payment submitted<small>Waiting for admin approval</small></div><b style="color:var(--orange)">PENDING</b></div>
+<div class="section-title" style="margin-top:18px"><h2>Deposit History</h2><span>All requests</span></div>
+<div class="history" id="depositHistory"><div class="row"><div>Loading deposit history…</div><b>—</b></div></div>
+<div class="history-more" id="depositHistoryMore" style="display:none"><button class="history-more-btn" onclick="toggleDepositHistory()" type="button">See more</button></div>
+</section>
+<section class="page" id="withdraw">
+<div class="section-title"><h2>Withdraw</h2><span>Request payout</span></div>
+<div class="hero">
+<div class="eyebrow">Withdrawable balance</div><div class="balance" style="font-size:28px">PKR <span id="wbal">0.00</span></div>
+<div class="sub" id="lockedBonusNote" style="margin-top:6px;display:none">PKR 0.00 referral bonus locked until you activate a paid plan.</div>
+<div class="notice" id="withdrawPolicy" style="margin-top:12px">Login to see your withdrawal policy.</div>
+<div class="form" style="margin-top:15px">
+<div class="field"><label>Method</label><select id="withMethod"><option>Easypaisa</option><option>JazzCash</option></select></div>
+<div class="field"><label>Account / Mobile number</label><input id="withAccount" inputmode="numeric" placeholder="03XX XXXXXXX"/></div>
+<div class="field"><label>Amount (PKR)</label><input id="withAmt" min="1" placeholder="500" step="0.01" type="number"/></div>
+<div class="sub" id="withdrawRuleHint" style="font-size:12px;line-height:1.5;margin-top:-4px">Withdrawal rules will appear here.</div>
+<button class="btn" onclick="withdraw()">Submit Withdrawal Request</button>
+</div>
+</div>
+<div class="section-title"><h2>Withdrawal History</h2><span>All requests</span></div>
+<div class="history" id="withdrawHistory"><div class="row"><div>No withdrawal requests yet<small>Your submitted requests will appear here.</small></div><b>—</b></div></div>
+<div class="history-more" id="withdrawHistoryMore" style="display:none"><button class="history-more-btn" onclick="toggleWithdrawalHistory()" type="button">See more</button></div>
+</section>
+</main>
+<section class="page" id="notifications">
+<div class="section-title"><h2>Notifications</h2><span id="notificationCountLabel">0 unread</span></div>
+<button class="notification-back-btn" type="button" onclick="go('profile')">← Back</button>
+<div class="notify-list" id="notificationList"><div class="notify-item">Login to view notifications.</div></div>
+</section>
+<section class="page" id="profile">
+
+<div class="hero auth-card" id="authCard">
+<div class="auth-icon">🔐</div>
+<h3 id="authTitle">Login</h3>
+<p id="authSubtitle">Enter your email and password to access your earnly account.</p>
+<div id="signupFields" style="display:none">
+<input class="auth-input" id="authName" placeholder="Full name" type="text"/>
+<input class="auth-input" id="authMobile" placeholder="Mobile number" type="tel"/>
+</div>
+<input autocomplete="email" class="auth-input" id="authEmail" placeholder="Email address" type="email"/>
+<input autocomplete="current-password" class="auth-input" id="authPin" minlength="6" placeholder="Password" type="password"/>
+<button class="full-btn" id="loginBtn" onclick="loginDemo()">Login</button>
+<button class="full-btn secondary" id="signupBtn" onclick="signupDemo()" style="display:none">Create New Account</button>
+<button class="full-btn" id="authSwitchBtn" onclick="switchAuthMode()" type="button">Create New Account</button>
+<div class="auth-note">Your account is stored securely Authentication.</div>
+</div>
+<div id="accountCard" style="display:none">
+<div class="profile-hero card">
+<div class="avatar" id="profileAvatar">U</div>
+<div class="profile-main">
+<div class="profile-name" id="profileName">User</div>
+<div class="profile-id">ID: <span id="profileUserId">USR-100001</span>
+<button class="copy-mini" onclick="navigator.clipboard?.writeText(document.getElementById('profileUserId').textContent);toast('User ID copied')">Copy</button>
+</div>
+<div class="status-pill"><span></span> Account Active</div>
+</div>
+</div>
+<div class="profile-grid">
+<div class="stat-card"><span>💰</span><b id="profileBalance">PKR 0.00</b><small>Balance</small></div>
+<div class="stat-card"><span>📈</span><b id="profileEarnings">PKR 0.00</b><small>Total Earnings</small></div>
+<div class="stat-card"><span>👁️</span><b id="profileWatched">0</b><small>Ads Watched</small></div>
+<div class="stat-card"><span>🎯</span><b id="profilePlan">Free Plan</b><small>Current Plan</small></div>
+</div>
+<div class="card profile-details">
+<div class="section-title">Account Details</div>
+<div class="detail-row"><span>Unique User ID</span><strong id="detailUserId">USR-100001</strong></div>
+<div class="detail-row"><span>Mobile Number</span><strong id="profileMobile">Not added</strong></div>
+<div class="detail-row"><span>Plan Status</span><strong class="green" id="profilePlanStatus">Active</strong></div>
+<div class="detail-row"><span>Payment Status</span><strong id="profilePaymentStatus">No pending payment</strong></div>
+</div>
+<div class="referral-box" id="referralSection" style="display:none">
+<div class="section-title"><h2>Login Bonus</h2><span>10% bonus</span></div>
+<div id="referralPaidView" style="display:none">
+<div style="font-size:12px;opacity:.65">Share your referral code with a new user.</div>
+<div class="referral-code">
+<input class="auth-input" id="myReferralCode" readonly="" style="margin-top:0"/>
+<button class="iconbtn" onclick="copyReferralCode()" style="width:42px;height:42px">⧉</button><button class="iconbtn" onclick="shareReferralCode()" style="width:42px;height:42px">↗</button>
+</div>
+<div class="referral-stats">
+<div class="referral-stat">Registered<b id="refRegistered">0</b></div>
+<div class="referral-stat">Pending<b id="refPending">0</b></div>
+<div class="referral-stat">Paid referrals<b id="refPaid">0</b></div>
+</div>
+<div class="referral-stat" style="margin-top:8px">Referral bonuses earned<b id="refBonus">PKR 0.00</b></div>
+<div class="referral-list" id="referralList"></div>
+</div>
+<div id="referralFreeView">
+<div style="font-size:12px;opacity:.65;line-height:1.5">You can enter a bonus code once. Enter a valid nonus code once. After it is accepted, you will get 50 to 1k free login bonus.</div>
+<div class="field" style="margin-top:10px"><label>Login code</label><input class="auth-input" id="referralCodeInput" placeholder="Example: ST-123456" style="margin-top:0;text-transform:uppercase"/></div>
+<button class="full-btn secondary" onclick="submitReferralCode()">Submit Code</button>
+<div id="referralOwnStatus" style="display:none"></div>
+</div>
+</div>
+<a class="whatsapp-service-btn" href="https://wa.me/923183304588" target="_blank" rel="noopener" aria-label="WhatsApp customer service 03183304588">
+<span class="whatsapp-service-icon">☏</span><span><b>WhatsApp Customer Service</b><small>03183304588</small></span>
+</a>
+<button class="full-btn secondary" onclick="go('withdraw')">💸 Withdrawal</button>
+<button class="full-btn danger" onclick="logoutDemo()">↪ Logout</button>
+</div>
+</section>
+<section class="page admin-notify-page" id="adminNotifications"><div class="admin-topbar"><button class="admin-back" onclick="go('profile')">←</button><div><div class="eyebrow">Earnly CONTROL CENTER</div><h2>Notifications</h2><p>Send a message to one or multiple users.</p></div><div class="admin-shield">🔔</div></div><div class="admin-notify-card"><div class="admin-notify-field" style="margin-top:0"><label>Recipients</label><select class="admin-notify-search" id="adminNotifyMode" onchange="adminNotifyModeChanged()"><option value="selected">Select users</option><option value="all">All users</option></select></div><div class="admin-notify-recipient-row" id="adminNotifySelectActions"><button class="admin-btn active" onclick="adminNotifySelectAll()">Select All Users</button><button class="admin-btn" onclick="adminNotifyClearSelection()">Clear</button></div><input class="admin-notify-search" id="adminNotifySearch" oninput="renderAdminNotifyUsers()" placeholder="Search by name, User ID or mobile" autocomplete="off"><div class="admin-notify-selected" id="adminNotifySelected">0 users selected</div><div class="admin-notify-user-list" id="adminNotifyUsers"><div class="admin-status">Loading users…</div></div><div class="admin-notify-field"><label>Notification heading</label><input id="adminNotifyTitle" maxlength="120" placeholder="Example: Deposit approved"/></div><div class="admin-notify-field"><label>Notification message</label><textarea id="adminNotifyMessage" maxlength="2000" placeholder="Write the notification message here..."></textarea></div><div class="admin-notify-actions"><button class="full-btn secondary" onclick="adminSendNotification()">Send Notification</button><button class="full-btn" onclick="adminClearNotificationForm()">Clear</button></div></div></section><section class="page admin-live-page" id="adminLive">
+<div class="admin-topbar">
+<button class="admin-back" onclick="go('home')">←</button>
+<div><div class="eyebrow">Earnly LIVE MONITOR</div><h2>Live Users</h2><p>Users currently connected to the application.</p></div>
+<div class="admin-shield">🟢</div>
+</div>
+<div class="admin-live-card">
+<div class="admin-live-meta"><span class="admin-live-dot"></span>LIVE CONNECTIONS</div>
+<div class="admin-live-number" id="adminLiveUserCount">0</div>
+<div class="admin-live-meta">Online users are checked automatically every 10 seconds.</div>
+<div class="admin-live-meta" id="adminLiveUpdated" style="margin-top:8px">Waiting for live connection…</div>
+<div class="admin-live-actions">
+<button class="full-btn secondary" onclick="refreshAdminLiveUsers()">↻ Refresh now</button>
+<button class="full-btn secondary" onclick="go('adminPanel')">⚙ Management</button>
+</div>
+</div>
+</section>
+<section class="page admin-manage-page admin-page" id="adminPanel">
+<div class="admin-topbar">
+<button class="admin-back" onclick="go('adminLive')">←</button>
+<div><div class="eyebrow">Earnly CONTROL CENTER</div><h2>Management Panel</h2><p>Manage users, deposits, withdrawals and referrals.</p></div>
+<div class="admin-shield">🛡️</div>
+</div>
+<div class="admin-overview">
+<div class="admin-overview-card"><span>👥</span><small>Users</small><b id="adminHeroUsers">0</b></div>
+<div class="admin-overview-card"><span>💳</span><small>Deposits</small><b id="adminHeroDeposits">0</b></div>
+<div class="admin-overview-card"><span>💸</span><small>Withdrawals</small><b id="adminHeroWithdrawals">0</b></div>
+<div class="admin-overview-card"><span>🤝</span><small>Referrals</small><b id="adminHeroReferrals">0</b></div>
+</div>
+<div class="admin-account-analytics">
+<div class="admin-analytics-head">
+<div><b>Account Analytics</b><small>New registrations and plan mix</small></div>
+<span class="admin-live">● LIVE DATA</span>
+</div>
+<div class="admin-analytics-controls">
+<input class="admin-date-input" id="adminStatsDate" onchange="loadAdminAccountStats()" type="date"/>
+<button class="admin-life-btn" id="adminStatsLifetime" onclick="setAdminStatsLifetime()">Lifetime</button>
+</div>
+<div class="admin-analytics-label" id="adminStatsRangeLabel">Selected date</div>
+<div class="admin-new-count"><small>New accounts</small><b id="adminNewAccountCount">0</b></div>
+<div class="admin-plan-grid">
+<div class="admin-plan-card"><small>Free</small><b id="adminPlanFree">0</b></div>
+<div class="admin-plan-card"><small>Starter</small><b id="adminPlanStarter">0</b></div>
+<div class="admin-plan-card"><small>Pro</small><b id="adminPlanPro">0</b></div>
+<div class="admin-plan-card"><small>Premium</small><b id="adminPlanPremium">0</b></div>
+</div>
+</div>
+<div class="admin-card-body">
+<div class="admin-title-row"><div><b>Management</b><small>Choose what you want to review</small></div><span class="admin-live">● LIVE</span></div>
+<div class="admin-tabs">
+<button class="admin-tab active" onclick="showAdminTab('deposits',this)">Deposits</button>
+<button class="admin-tab" onclick="showAdminTab('withdrawals',this)">Withdrawals</button>
+<button class="admin-tab" onclick="showAdminTab('users',this)">Users</button>
+<button class="admin-tab" onclick="showAdminTab('referrals',this)">Referrals</button>
+</div>
+<div class="admin-section active" id="adminTab-deposits">
+<div class="admin-status" id="adminStatus">Loading…</div>
+<div id="adminDeposits"></div>
+</div>
+<div class="admin-section" id="adminTab-withdrawals">
+<div class="admin-status" id="adminWithdrawalStatus">Loading…</div>
+<div id="adminWithdrawals"></div>
+</div>
+<div class="admin-section" id="adminTab-users">
+<input class="admin-search" id="adminUserSearch" oninput="renderAdminUsers()" placeholder="Search name, user code or mobile"/>
+<div class="admin-stats"><div class="admin-stat">Registered<b id="adminUserCount">0</b></div><div class="admin-stat">Paid plans<b id="adminPaidUserCount">0</b></div></div>
+<div id="adminUsers"></div>
+</div>
+<div class="admin-section" id="adminTab-referrals">
+<div class="admin-stats"><div class="admin-stat">Total<b id="adminRefCount">0</b></div><div class="admin-stat">Pending<b id="adminRefPending">0</b></div><div class="admin-stat">Paid<b id="adminRefPaid">0</b></div><div class="admin-stat">Bonuses<b id="adminRefBonus">PKR 0.00</b></div></div>
+<div id="adminReferrals"></div>
+</div>
+</div>
+</section>
+<nav class="bottom"><button class="nav active" data-page="home" id="adminHomeNav" onclick="go('home')"><span class="navicon"><svg viewbox="0 0 24 24"><path d="M3 10.8 12 3l9 7.8v8.1a2 2 0 0 1-2 2h-4.8v-6h-4.4v6H5a2 2 0 0 1-2-2z"></path></svg></span><span>Home</span></button><button class="nav" data-page="ads" id="adminEarnNav" onclick="go('ads')"><span class="navicon" id="adminEarnNavIcon"><svg viewbox="0 0 24 24"><path d="m9 6 10 6-10 6z"></path><path d="M5 5v14"></path></svg></span><span id="adminEarnNavLabel">Earn</span></button><button class="nav" data-page="adminPanel" id="adminManageNav" onclick="openAdminPanel()" style="display:none"><span class="navicon"><svg viewbox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"></path><circle cx="8" cy="6" r="1.5"></circle><circle cx="15" cy="12" r="1.5"></circle><circle cx="10" cy="18" r="1.5"></circle></svg></span><span>Manage</span></button><button class="nav" data-page="deposit" id="depositNav" onclick="go('deposit')"><span class="navicon"><svg viewbox="0 0 24 24"><path d="M12 4v11"></path><path d="m7 10 5 5 5-5"></path><path d="M5 20h14"></path></svg></span><span>Deposit</span></button><button class="nav" data-page="withdraw" id="withdrawNav" onclick="go('withdraw')"><span class="navicon"><svg viewbox="0 0 24 24"><path d="M12 20V9"></path><path d="m7 13 5-5 5 5"></path><path d="M5 4h14"></path></svg></span><span>Withdraw</span></button><button class="nav" data-page="profile" id="profileNav" onclick="go('profile')"><span class="navicon"><svg viewbox="0 0 24 24"><circle cx="12" cy="8" r="3.2"></circle><path d="M5.5 20c.7-3.1 2.8-5 6.5-5s5.8 1.9 6.5 5"></path></svg></span><span>Profile</span></button></nav>
+</div>
+<div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="sheet"><h3 id="modalTitle">Plan</h3><p class="sub" id="modalText"></p><button class="btn" onclick="closeModal()">Continue</button></div></div>
+<script>
+const plans=[
+ {name:"Free",icon:"🎁",price:"Free",earn:"PKR 2",ads:"6 ads/day",featured:false},
+ {name:"Starter",icon:"⚡",price:"PKR 1,000",earn:"PKR 80",ads:"6 ads/day",featured:false},
+ {name:"Pro",icon:"🚀",price:"PKR 2,000",earn:"PKR 120",ads:"6 ads/day",featured:true},
+ {name:"Premium",icon:"💎",price:"PKR 3,000",earn:"PKR 150",ads:"6 ads/day",featured:false}
+];
+const plansEl=document.getElementById('plans');
+plans.forEach((p,i)=>plansEl.innerHTML+=`<div class="plan ${p.featured?'featured':''}">${p.featured?'<span class="badge">POPULAR</span>':''}<div class="plan-head"><div class="plan-icon">${p.icon}</div><div><h3>${p.name}</h3><div class="price">${p.price} <small>${p.price==='Free'?'':'plan'}</small></div></div></div><div class="details"><div class="pill">Reward<b>${p.earn}</b></div><div class="pill">Ad limit<b>${p.ads}</b></div></div><button class="btn ${i===0?'alt':''}" onclick="selectPlan('${p.name}','${p.price}','${p.earn}')">${i===0?'Use Free Plan':'Choose '+p.name}</button></div>`);
+
+async function go(id){
+ const currentUser=await getCurrentUser();
+ const admin=isAdminUser(currentUser);
+ if(admin && (id==='home' || id==='deposit' || id==='withdraw' || id==='ads')){
+   id='adminNotifications';
+ }
+ if(id==='adminPanel' || id==='adminLive' || id==='adminNotifications'){
+   if(!admin){ toast('Admin access required'); return; }
+ }
+ document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+ const target=document.getElementById(id);
+ if(!target) return;
+ target.classList.add('active');
+ document.querySelectorAll('.nav').forEach(x=>x.classList.toggle('active',x.dataset.page===id));
+ if(id==='deposit'){ starchLoadDepositHistory(); }
+ if(id==='withdraw'){ starchLoadWithdrawalPolicy(); starchLoadWithdrawalHistory(); }
+ if(id==='adminPanel') loadAdminDashboard();
+ if(id==='adminLive') startAdminLiveMonitor();
+ if(id==='adminNotifications') loadAdminNotifyUsers();
+ window.scrollTo({top:0,behavior:'auto'});
+}
+async function updateBottomNavForRole(){
+  const home=document.getElementById('adminHomeNav'); const btn=document.getElementById('adminEarnNav'); const label=document.getElementById('adminEarnNavLabel'); const icon=document.getElementById('adminEarnNavIcon'); const manage=document.getElementById('adminManageNav'); const depositNav=document.getElementById('depositNav'); const withdrawNav=document.getElementById('withdrawNav');
+  if(!btn||!label||!icon)return; const user=await getCurrentUser(); const admin=isAdminUser(user);
+  if(home)home.style.display=admin?'none':''; if(depositNav)depositNav.style.display=admin?'none':''; if(withdrawNav)withdrawNav.style.display=admin?'none':''; if(manage)manage.style.display=admin?'flex':'none';
+  const bottom=document.querySelector('.bottom'); if(bottom)bottom.style.gridTemplateColumns=admin?'repeat(4,1fr)':'repeat(5,1fr)';
+  if(admin){
+    btn.dataset.page='adminLive'; btn.onclick=()=>go('adminLive'); label.textContent='Live'; icon.innerHTML='<svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 16 0"/><path d="M7 12a5 5 0 0 1 10 0"/><circle cx="12" cy="12" r="1.5"/><path d="M12 4v2"/></svg>';
+    if(!document.getElementById('adminNotificationsNav')){const n=document.createElement('button');n.className='nav';n.id='adminNotificationsNav';n.dataset.page='adminNotifications';n.onclick=()=>go('adminNotifications');n.innerHTML='<span class="navicon"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg></span><span>Notify</span>';document.querySelector('.bottom')?.insertBefore(n,btn);}
+  }else{document.getElementById('adminNotificationsNav')?.remove();btn.dataset.page='ads';btn.onclick=()=>go('ads');label.textContent='Earn';icon.innerHTML='<svg viewBox="0 0 24 24"><path d="m9 6 10 6-10 6z"/><path d="M5 5v14"/></svg>';}
+}
+
+let starchLiveChannel=null;
+let starchLiveRefreshTimer=null;
+
+function countLivePresence(){
+  if(!starchLiveChannel) return 0;
+  const state=starchLiveChannel.presenceState();
+  return Object.keys(state||{}).length;
+}
+
+function renderAdminLiveCount(){
+  const count=countLivePresence();
+  const el=document.getElementById('adminLiveUserCount');
+  const updated=document.getElementById('adminLiveUpdated');
+  if(el) el.textContent=String(count);
+  if(updated) updated.textContent='Last checked: '+new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',second:'2-digit'});
+}
+
+async function startStarchLivePresence(){
+  const user=await getCurrentUser();
+  if(!user) return;
+  if(starchLiveChannel){
+    try{ await starchLiveChannel.track({online:true}); }catch(e){}
+    return;
+  }
+  starchLiveChannel=supabaseClient.channel('starch-live-users',{config:{presence:{key:user.id}}});
+  starchLiveChannel.on('presence', {event:'sync'}, ()=>renderAdminLiveCount());
+  starchLiveChannel.on('presence', {event:'join'}, ()=>renderAdminLiveCount());
+  starchLiveChannel.on('presence', {event:'leave'}, ()=>renderAdminLiveCount());
+  const status=await starchLiveChannel.subscribe(async (status)=>{
+    if(status==='SUBSCRIBED'){
+      try{ await starchLiveChannel.track({online:true}); }catch(err){ console.error('Live presence track error:',err); }
+      renderAdminLiveCount();
+    }
+  });
+  if(status!=='SUBSCRIBED') console.warn('Live presence status:',status);
+}
+
+async function stopStarchLivePresence(){
+  if(starchLiveRefreshTimer){clearInterval(starchLiveRefreshTimer);starchLiveRefreshTimer=null;}
+  if(starchLiveChannel){
+    try{await supabaseClient.removeChannel(starchLiveChannel);}catch(e){}
+    starchLiveChannel=null;
+  }
+}
+
+async function refreshAdminLiveUsers(){
+  const user=await getCurrentUser();
+  if(!isAdminUser(user)){toast('Admin access required');return;}
+  try{
+    if(!starchLiveChannel || starchLiveChannel.state!=='joined'){
+      await stopStarchLivePresence();
+      await startStarchLivePresence();
+      await new Promise(r=>setTimeout(r,250));
+    }else{
+      try{ await starchLiveChannel.track({online:true,refreshed_at:Date.now()}); }catch(e){}
+    }
+    renderAdminLiveCount();
+    const updated=document.getElementById('adminLiveUpdated');
+    if(updated) updated.textContent='Last checked: '+new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  }catch(err){
+    console.error('Live users refresh error:',err);
+    toast(err?.message || 'Could not refresh live users');
+  }
+}
+
+function startAdminLiveMonitor(){
+  const userPromise=getCurrentUser();
+  userPromise.then(user=>{
+    if(!isAdminUser(user)) return;
+    startStarchLivePresence();
+    if(starchLiveRefreshTimer) clearInterval(starchLiveRefreshTimer);
+    starchLiveRefreshTimer=setInterval(()=>{
+      if(document.getElementById('adminLive')?.classList.contains('active')) refreshAdminLiveUsers();
+    },10000);
+  });
+}
+
+function toast(msg){let t=document.getElementById('toast');if(!t)return;t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)}
+function selectDepositPlan(name,price,earn){
+ const amount=document.getElementById('depAmt');
+ if(amount) amount.value=String(price||'').replace(/[^0-9.]/g,'');
+ const selected=document.getElementById('selectedPlan');
+ if(selected) selected.textContent=name+' • '+price;
+ if(name==='Free'){toast('Free plan selected');go('ads');return;}
+ go('deposit');
+ toast('Plan selected — payment required');
+}
+
+function selectDepositPlanByDropdown(name){
+ if(!name) return;
+ const p=plans.find(x=>x.name===name);
+ if(p)selectDepositPlan(p.name,p.price,p.earn);
+}
+
+function selectPlan(name,price,earn){
+ selectDepositPlan(name,price,earn);
+ if(name==='Free'){go('ads');return;}
+ go('deposit');
+}
+
+function closeModal(){document.getElementById('modal').classList.remove('show')}
+function setActivePlan(name,reward,limit){
+ document.getElementById('activePlanName').textContent=name;
+ document.getElementById('activePlanReward').textContent=reward+' • '+limit;
+ document.getElementById('adsActivePlan').textContent=name;
+ document.getElementById('adsPlanLabel').textContent=name;
+ document.getElementById('adsReward').textContent=reward+' / ad';
+}
+let running=false,secs=15;
+
+async function startAd(){
+  if(running) return;
+
+  if(!currentProfile){
+    toast('Please login first.');
+    go('profile');
+    return;
+  }
+
+  const btn=document.getElementById('watchBtn');
+  const timer=document.getElementById('timer');
+  const circle=document.getElementById('circle');
+
+  if(!btn || !timer || !circle){
+    toast('Ad section could not load.');
+    return;
+  }
+
+  running=true;
+  secs=15;
+  btn.disabled=true;
+  btn.textContent='Watching… 15s';
+  timer.textContent='15';
+  circle.style.background='conic-gradient(var(--cyan) 0deg,#ffffff10 0deg)';
+
+  const iv=setInterval(async ()=>{
+    secs--;
+    timer.textContent=secs;
+    btn.textContent=`Watching… ${secs}s`;
+
+    const deg=((15-secs)/15)*360;
+    circle.style.background=`conic-gradient(var(--cyan) ${deg}deg,#ffffff10 ${deg}deg)`;
+
+    if(secs<=0){
+      clearInterval(iv);
+
+      try{
+        const {data,error:resultError}=await supabaseClient.rpc('complete_ad');
+
+        if(resultError){
+          console.error('complete_ad error:',resultError);
+          toast('Ad could not be completed: '+resultError.message);
+          btn.disabled=false;
+          btn.textContent='Start Ad • Earn';
+          return;
+        }
+
+        const result=data || {};
+        const reward=Number(result.reward || 0);
+        const profile=result.profile || {};
+
+        if(!reward || !profile.id){
+          toast('Ad reward was not returned.');
+          btn.disabled=false;
+          btn.textContent='Start Ad • Earn';
+          return;
+        }
+
+        currentProfile=profile;
+
+        const newBalance=Number(profile.balance || 0);
+        const newTotal=Number(profile.total_earned || 0);
+
+        starchSet('balance',starchMoney(newBalance));
+        starchSet('wbal',starchMoney(newBalance));
+        starchSet('profileBalance','PKR '+starchMoney(newBalance));
+        starchSet('profileEarnings','PKR '+starchMoney(newTotal));
+        starchSet('homeTotalEarnings','PKR '+starchMoney(newTotal));
+
+        const watchedEl=document.getElementById('watched');
+        const currentWatched=Number(watchedEl?.textContent || 0);
+        const watched=currentWatched+1;
+        const limit=Number(result.daily_ad_limit || 0);
+        const remaining=limit>0 ? Math.max(0,limit-watched) : 0;
+
+        starchSet('today',starchMoney(
+          Number(document.getElementById('today')?.textContent || 0)+reward
+        ));
+        starchSet('watched',String(watched));
+        starchSet('remaining',limit>0 ? String(remaining) : '∞');
+        if(limit>0){
+          starchSet('homeAdsCount',Math.min(watched,limit)+' / '+limit);
+          starchSet('adsActivityLabel',Math.min(watched,limit)+' of '+limit);
+          const progress=document.getElementById('progress');
+          if(progress) progress.style.width=(Math.min(watched,limit)/limit*100)+'%';
+        }
+
+        const history=document.getElementById('adHistory');
+        if(history){
+          const empty=history.textContent.includes('No ads completed yet');
+          if(empty) history.innerHTML='';
+          const row=document.createElement('div');
+          row.className='row';
+          row.innerHTML='<div>Ad completed<small>Just now</small></div><b class="plus">+ PKR '+starchMoney(reward)+'</b>';
+          history.prepend(row);
+        }
+
+        btn.textContent='✓ Completed • Earned PKR '+starchMoney(reward);
+        toast('Ad completed: + PKR '+starchMoney(reward));
+
+        await starchLoadTodayStats();
+
+        setTimeout(()=>{
+          btn.disabled=false;
+          btn.textContent='Start Ad • Earn';
+          timer.textContent='15';
+          circle.style.background='conic-gradient(var(--cyan) 0deg,#ffffff10 0deg)';
+        },1800);
+
+      }catch(err){
+        console.error('Ad error:',err);
+        toast('Could not complete the ad: '+(err?.message || 'Please try again.'));
+        btn.disabled=false;
+        btn.textContent='Start Ad • Earn';
+      }finally{
+        running=false;
+      }
+    }
+  },1000);
+}
+
+async function addBalance(v){
+  /* Legacy compatibility only. Ad rewards must use the secure complete_ad RPC. */
+  if(!currentProfile){
+    toast('Please login first.');
+    return false;
+  }
+
+  const amount=Number(v||0);
+  if(!Number.isFinite(amount) || amount<=0) return false;
+
+  const before=Number(currentProfile.balance||0);
+  const total=Number(currentProfile.total_earned||0);
+
+  const {data,error}=await supabaseClient
+    .from('profiles')
+    .update({
+      balance:before+amount,
+      total_earned:total+amount
+    })
+    .eq('id',currentProfile.id)
+    .select('id,user_code,name,mobile,balance,locked_bonus,total_earned,total_withdrawn,status,created_at')
+    .single();
+
+  if(error){
+    console.error('Balance update error:',error);
+    toast('Could not update your balance.');
+    return false;
+  }
+
+  currentProfile=data;
+  updateProfileFromBackend(data);
+  return true;
+}
+function copyAccount(){
+ navigator.clipboard?.writeText('03498274628');
+ toast('Account number copied');
+}
+async function deposit(){
+  if(!currentProfile){
+    toast('Please login first.');
+    go('profile');
+    return;
+  }
+
+  const planName=document.getElementById('depPlan')?.value || '';
+  const method=document.getElementById('depMethod')?.value || '';
+  const amount=Number(document.getElementById('depAmt')?.value || 0);
+  const proofInput=document.getElementById('proof');
+  const file=proofInput?.files?.[0];
+
+  if(!planName) return toast('Please choose a plan');
+  if(planName==='Free') return toast('Free plan does not require a deposit');
+  if(!amount || amount<=0) return toast('Select a paid plan first');
+  if(!file) return toast('Please upload payment proof');
+  if(file.size > 5 * 1024 * 1024) return toast('Payment proof must be 5 MB or smaller');
+  if(!(file.type.startsWith('image/') || file.type==='application/pdf')) return toast('Only image or PDF proof is allowed');
+
+  const {data: plan, error: planError}=await supabaseClient
+    .from('plans')
+    .select('id,name,price,is_active')
+    .eq('name',planName)
+    .eq('is_active',true)
+    .maybeSingle();
+
+  if(planError || !plan){
+    console.error('Plan lookup error:',planError);
+    return toast('Could not find the selected plan');
+  }
+
+  const expectedAmount=Number(plan.price || 0);
+  if(amount !== expectedAmount){
+    const amountInput=document.getElementById('depAmt');
+    if(amountInput) amountInput.value=String(expectedAmount);
+    return toast('Plan amount was corrected. Please submit again.');
+  }
+
+  const ext=(file.name.split('.').pop() || (file.type==='application/pdf'?'pdf':'jpg')).toLowerCase().replace(/[^a-z0-9]/g,'') || 'file';
+  const path=currentProfile.id+'/'+Date.now()+'-'+Math.random().toString(36).slice(2,10)+'.'+ext;
+
+  const status=document.getElementById('depositStatus');
+  const submitBtn=document.querySelector('#deposit .btn');
+  if(submitBtn){submitBtn.disabled=true; submitBtn.textContent='Uploading…';}
+
+  try{
+    const {error: uploadError}=await supabaseClient.storage
+      .from('deposit-proofs')
+      .upload(path,file,{upsert:false,contentType:file.type || undefined});
+
+    if(uploadError) throw uploadError;
+
+    if(submitBtn) submitBtn.textContent='Submitting…';
+
+    const {error: insertError}=await supabaseClient
+      .from('deposits')
+      .insert({
+        user_id:currentProfile.id,
+        plan_id:plan.id,
+        amount:expectedAmount,
+        payment_method:method,
+        account_number:document.getElementById('accountNumber')?.value || '',
+        proof_url:path,
+        status:'pending'
+      });
+
+    if(insertError){
+      await supabaseClient.storage.from('deposit-proofs').remove([path]).catch(()=>{});
+      throw insertError;
+    }
+
+    if(status) status.style.display='flex';
+    if(proofInput) proofInput.value='';
+    await starchLoadDepositHistory();
+    toast('Proof submitted — waiting for approval');
+  }catch(err){
+    console.error('Deposit submission error:',err);
+    const msg=String(err?.message || '');
+    if(/bucket|storage|object/i.test(msg)) toast('Could not upload proof. Check deposit storage setup.');
+    else toast(msg || 'Could not submit deposit');
+  }finally{
+    if(submitBtn){submitBtn.disabled=false; submitBtn.textContent='Submit Payment Proof';}
+  }
+}
+async function starchLoadWithdrawalPolicy(){
+  const box=document.getElementById('withdrawPolicy');
+  const hint=document.getElementById('withdrawRuleHint');
+  if(!box || !hint) return;
+
+  if(!currentProfile){
+    box.textContent='Login to see your withdrawal policy.';
+    hint.textContent='';
+    return;
+  }
+
+  try{
+    const {data,error}=await supabaseClient.rpc('get_withdrawal_policy');
+    if(error) throw error;
+
+    const paid=!!data?.paid_plan;
+    const count=Number(data?.withdrawal_count||0);
+    const refs=Number(data?.referral_count||0);
+    const available=Number(data?.withdrawable_balance||0);
+
+    if(!paid){
+      if(count===0){
+        box.innerHTML='<b>Free plan:</b> Your first withdrawal is allowed and will be sent for admin approval. Within 10 to 20 min you get you withdrawal approval.';
+        hint.textContent='First withdrawal: enter an amount within your withdrawable balance.';
+      }else{
+        box.innerHTML='<b>Free plan:</b> Your first withdrawal has already been used. Activate a paid plan before requesting another withdrawal.';
+        hint.textContent='Paid plan required for your next withdrawal.';
+      }
+    }else{
+      if(count===0){
+        box.innerHTML='<b>Paid plan:</b> First withdrawal is PKR 500 and requires at least 2 referrals. Your current referrals: '+refs+'.';
+        hint.textContent='First paid-plan withdrawal: exactly PKR 500 + 2 referrals.';
+      }else{
+        box.innerHTML='<b>Paid plan:</b> Withdrawal requests are PKR 500 each. Your next request will be sent for admin approval.';
+        hint.textContent='Paid-plan withdrawal amount: exactly PKR 500.';
+      }
+    }
+
+    const amountInput=document.getElementById('withAmt');
+    if(amountInput){
+      if(paid){ amountInput.value=''; amountInput.placeholder='500'; amountInput.max='500'; }
+      else { amountInput.removeAttribute('max'); }
+    }
+  }catch(err){
+    console.warn('Withdrawal policy could not be loaded:',err.message);
+    box.textContent='Withdrawal policy could not be loaded.';
+    hint.textContent='Please try again.';
+  }
+}
+
+async function withdraw(){
+  if(!currentProfile){
+    toast('Please login first');
+    return;
+  }
+
+  const method=(document.getElementById('withMethod')?.value || '').trim();
+  const account=(document.getElementById('withAccount')?.value || '').trim();
+  const amount=Number(document.getElementById('withAmt')?.value || 0);
+
+  if(!method) return toast('Select a withdrawal method');
+  if(!account) return toast('Enter your account / mobile number');
+  if(!amount || amount<=0) return toast('Enter a withdrawal amount');
+
+  const submitBtn=document.querySelector('#withdraw .btn');
+  if(submitBtn){submitBtn.disabled=true;submitBtn.textContent='Submitting…';}
+
+  try{
+    const {data,error}=await supabaseClient.rpc('request_withdrawal',{
+      p_amount:amount,
+      p_payment_method:method,
+      p_account_number:account
+    });
+
+    if(error) throw error;
+    if(!data?.success) throw new Error('Withdrawal request could not be submitted');
+
+    const amountInput=document.getElementById('withAmt');
+    const accountInput=document.getElementById('withAccount');
+    if(amountInput) amountInput.value='';
+    if(accountInput) accountInput.value='';
+
+    if(data.profile){
+      currentProfile=data.profile;
+      updateAccountUI();
+    }else{
+      await loadProfile();
+    }
+
+    toast('Withdrawal request submitted — waiting for approval');
+    await starchLoadWithdrawalHistory();
+    await starchLoadWithdrawalPolicy();
+  }catch(err){
+    console.error('Withdrawal submission error:',err);
+    toast(err?.message || 'Could not submit withdrawal request');
+  }finally{
+    if(submitBtn){submitBtn.disabled=false;submitBtn.textContent='Submit Withdrawal Request';}
+  }
+}
+let withdrawalHistoryAll=[];
+let withdrawalHistoryExpanded=false;
+let depositHistoryAll=[];
+let depositHistoryExpanded=false;
+
+function historyStatusHtml(status){
+  const s=String(status||'pending').toLowerCase();
+  const label=s.charAt(0).toUpperCase()+s.slice(1);
+  return '<span class="history-status '+escapeHtml(s)+'">'+escapeHtml(label)+'</span>';
+}
+
+function renderWithdrawalHistory(){
+  const history=document.getElementById('withdrawHistory');
+  const more=document.getElementById('withdrawHistoryMore');
+  if(!history) return;
+  const rows=withdrawalHistoryExpanded?withdrawalHistoryAll:withdrawalHistoryAll.slice(0,5);
+  if(!withdrawalHistoryAll.length){
+    history.innerHTML='<div class="row"><div>No withdrawal requests yet<small>Your submitted requests will appear here.</small></div><b>—</b></div>';
+  }else{
+    history.innerHTML=rows.map(row=>{
+      const dt=new Date(row.created_at);
+      const when=dt.toLocaleString([], {month:'short',day:'numeric',year:'numeric',hour:'2-digit',minute:'2-digit'});
+      const status=String(row.status||'pending').toLowerCase();
+      const cls=status==='approved'?'plus':(status==='rejected'?'minus':'');
+      const note=row.admin_note?'<small>'+escapeHtml(row.admin_note)+'</small>':'';
+      return '<div class="row"><div><b>Withdrawal</b><small>'+escapeHtml(when)+' • '+escapeHtml(row.payment_method||'')+'</small>'+historyStatusHtml(status)+note+'</div><b class="'+cls+'">− PKR '+starchMoney(row.amount)+'</b></div>';
+    }).join('');
+  }
+  if(more){
+    more.style.display=withdrawalHistoryAll.length>5?'flex':'none';
+    const btn=more.querySelector('button');
+    if(btn) btn.textContent=withdrawalHistoryExpanded?'Show less':'See more';
+  }
+}
+
+function toggleWithdrawalHistory(){
+  withdrawalHistoryExpanded=!withdrawalHistoryExpanded;
+  renderWithdrawalHistory();
+}
+
+async function starchLoadWithdrawalHistory(){
+  const history=document.getElementById('withdrawHistory');
+  if(!history) return;
+  if(!currentProfile){
+    withdrawalHistoryAll=[]; withdrawalHistoryExpanded=false; renderWithdrawalHistory(); return;
+  }
+  const {data,error}=await supabaseClient
+    .from('withdrawals')
+    .select('id,amount,payment_method,account_number,status,admin_note,created_at,reviewed_at')
+    .eq('user_id',currentProfile.id)
+    .order('created_at',{ascending:false})
+    .limit(100);
+  if(error){
+    console.warn('Withdrawal history could not be loaded:',error.message);
+    history.innerHTML='<div class="row"><div>Could not load withdrawal history<small>Please try again.</small></div><b>—</b></div>';
+    return;
+  }
+  withdrawalHistoryAll=data||[];
+  renderWithdrawalHistory();
+}
+
+function renderDepositHistory(){
+  const history=document.getElementById('depositHistory');
+  const more=document.getElementById('depositHistoryMore');
+  if(!history) return;
+  const rows=depositHistoryExpanded?depositHistoryAll:depositHistoryAll.slice(0,5);
+  if(!depositHistoryAll.length){
+    history.innerHTML='<div class="row"><div>No deposit requests yet<small>Your submitted payment proofs will appear here.</small></div><b>—</b></div>';
+  }else{
+    history.innerHTML=rows.map(row=>{
+      const dt=new Date(row.created_at);
+      const when=dt.toLocaleString([], {month:'short',day:'numeric',year:'numeric',hour:'2-digit',minute:'2-digit'});
+      const status=String(row.status||'pending').toLowerCase();
+      const plan=row.plans?.name||'Plan';
+      const note=row.admin_note?'<small>'+escapeHtml(row.admin_note)+'</small>':'';
+      return '<div class="row"><div><b>'+escapeHtml(plan)+' Deposit</b><small>'+escapeHtml(when)+' • PKR '+starchMoney(row.amount)+' • '+escapeHtml(row.payment_method||'')+'</small>'+historyStatusHtml(status)+note+'</div><b>'+historyStatusAmount(status,row.amount)+'</b></div>';
+    }).join('');
+  }
+  if(more){
+    more.style.display=depositHistoryAll.length>5?'flex':'none';
+    const btn=more.querySelector('button');
+    if(btn) btn.textContent=depositHistoryExpanded?'Show less':'See more';
+  }
+}
+function historyStatusAmount(status,amount){
+  const s=String(status||'pending').toLowerCase();
+  return '<span class="'+(s==='approved'?'plus':(s==='rejected'?'minus':''))+'">PKR '+starchMoney(amount)+'</span>';
+}
+function toggleDepositHistory(){
+  depositHistoryExpanded=!depositHistoryExpanded;
+  renderDepositHistory();
+}
+async function starchLoadDepositHistory(){
+  const history=document.getElementById('depositHistory');
+  if(!history) return;
+  if(!currentProfile){depositHistoryAll=[];depositHistoryExpanded=false;renderDepositHistory();return;}
+  const {data,error}=await supabaseClient
+    .from('deposits')
+    .select('id,amount,payment_method,status,admin_note,created_at,reviewed_at,plans(name)')
+    .eq('user_id',currentProfile.id)
+    .order('created_at',{ascending:false})
+    .limit(100);
+  if(error){
+    console.warn('Deposit history could not be loaded:',error.message);
+    history.innerHTML='<div class="row"><div>Could not load deposit history<small>Please try again.</small></div><b>—</b></div>';
+    return;
+  }
+  depositHistoryAll=data||[];
+  renderDepositHistory();
+}
+
+
+
+
+
+
+
+let userHistoryChannel=null;
+let userHistoryChannelUserId=null;
+
+async function stopUserHistoryRealtime(){
+  if(userHistoryChannel){
+    try{ await supabaseClient.removeChannel(userHistoryChannel); }catch(e){}
+    userHistoryChannel=null;
+    userHistoryChannelUserId=null;
+  }
+}
+
+async function startUserHistoryRealtime(){
+  if(!currentProfile) return;
+  if(userHistoryChannel && userHistoryChannelUserId===currentProfile.id) return;
+  await stopUserHistoryRealtime();
+  const uid=currentProfile.id;
+  userHistoryChannelUserId=uid;
+  userHistoryChannel=supabaseClient.channel('starch-user-history-'+uid);
+  userHistoryChannel
+    .on('postgres_changes',{event:'*',schema:'public',table:'deposits',filter:'user_id=eq.'+uid},()=>{
+      starchLoadDepositHistory();
+      starchLoadTodayStats();
+      loadNotifications();
+      loadProfileBalancesOnly();
+    })
+    .on('postgres_changes',{event:'*',schema:'public',table:'withdrawals',filter:'user_id=eq.'+uid},()=>{
+      starchLoadWithdrawalHistory();
+      loadProfileBalancesOnly();
+      loadNotifications();
+    })
+    .subscribe((status)=>{
+      if(status==='CHANNEL_ERROR' || status==='TIMED_OUT') console.warn('User history realtime:',status);
+    });
+}
+
+async function loadProfileBalancesOnly(){
+  if(!currentProfile) return;
+  const {data,error}=await supabaseClient.from('profiles').select('id,user_code,name,mobile,balance,locked_bonus,total_earned,total_withdrawn,status,created_at').eq('id',currentProfile.id).maybeSingle();
+  if(error || !data) return;
+  currentProfile=data;
+  updateProfileFromBackend(data);
+}
+
+async function getCurrentUser(){
+  try{
+    const {data:{user}, error} = await supabaseClient.auth.getUser();
+    if(error){
+      console.error("Auth user error:", error);
+      return null;
+    }
+    return user || null;
+  }catch(err){
+    console.error("Auth network error:", err);
+    return null;
+  }
+}
+
+function showSupabaseError(err, fallback){
+  const msg = String(err?.message || err || '');
+  console.error(fallback, err);
+  if(/failed to fetch|network|fetch/i.test(msg)){
+    toast('Cannot connect to Supabase. Check internet and Supabase URL.');
+  }else{
+    toast(msg || fallback);
+  }
+}
+
+let currentProfile = null;
+
+async function starchLoadActivePlan(){
+  if(!currentProfile) return null;
+
+  const {data,error}=await supabaseClient
+    .from('user_plans')
+    .select('id,plan_id,status,started_at,expires_at,plans(id,name,price,reward_per_ad,daily_ad_limit,is_active)')
+    .eq('user_id',currentProfile.id)
+    .eq('status','active')
+    .order('started_at',{ascending:false})
+    .limit(1)
+    .maybeSingle();
+
+  if(error){
+    console.warn('Active plan load error:',error.message);
+    setActivePlan('Free Plan','PKR 2','6 ads/day');
+    return null;
+  }
+
+  const plan=data?.plans;
+  if(!plan){
+    setActivePlan('Free Plan','PKR 2','6 ads/day');
+    return null;
+  }
+
+  setActivePlan(plan.name+' Plan','PKR '+starchMoney(plan.reward_per_ad),' '+(Number(plan.daily_ad_limit)>0 ? plan.daily_ad_limit+' ads/day' : 'Unlimited ads'));
+  return plan;
+}
+
+
+async function loadProfile(){
+  const user = await getCurrentUser();
+
+  if(!user){
+    currentProfile = null;
+    localStorage.removeItem('earnly_demo_user');
+    updateAccountUI();
+    return null;
+  }
+
+  const {data: profile, error} = await supabaseClient
+    .from('profiles')
+    .select('id,user_code,name,mobile,balance,locked_bonus,total_earned,total_withdrawn,status,created_at')
+    .eq('id', user.id)
+    .maybeSingle();
+
+  if(error){
+    console.error("Profile load error:", error);
+    toast("Profile error: " + error.message);
+    currentProfile = null;
+    updateAccountUI();
+    return null;
+  }
+
+  if(!profile){
+    console.error("No profiles row for auth user:", user.id);
+    toast("Login worked, but your profile row is missing. Run the profile SQL below.");
+    currentProfile = null;
+    updateAccountUI();
+    return null;
+  }
+
+  currentProfile = profile;
+
+  localStorage.setItem('earnly_demo_user', JSON.stringify({
+    id: profile.user_code,
+    name: profile.name,
+    mobile: profile.mobile || 'Not added',
+    email: user.email || ''
+  }));
+
+  updateAccountUI();
+  // Load independent user panels in parallel so login/page startup stays fast.
+  await Promise.all([
+    loadReferralUI(),
+    loadNotifications(),
+    starchLoadWithdrawalPolicy(),
+    starchLoadTodayStats(),
+    starchLoadActivePlan(),
+    starchLoadDepositHistory(),
+    starchLoadWithdrawalHistory()
+  ]);
+  await startUserHistoryRealtime();
+  return profile;
+}
+
+function getDemoUser(){
+  try{return JSON.parse(localStorage.getItem('earnly_demo_user')||'null')}catch(e){return null}
+}
+
+function updateAccountUI(){
+  syncTopProfile();
+
+  const profile = currentProfile;
+  const logged = !!profile;
+
+  const auth = document.getElementById('authCard');
+  if(auth) auth.style.display = logged ? 'none' : 'block';
+
+  const account = document.getElementById('accountCard');
+  if(account) account.style.display = logged ? 'block' : 'none';
+
+  if(!logged){
+    const referralSection=document.getElementById('referralSection');
+    if(referralSection) referralSection.style.display='none';
+    return;
+  }
+
+  const name = profile.name || 'User';
+  const userCode = profile.user_code || '—';
+  const mobile = profile.mobile || 'Not added';
+  const balance = Number(profile.balance || 0);
+  const lockedBonus = Number(profile.locked_bonus || 0);
+  const totalEarned = Number(profile.total_earned || 0);
+
+  ['profileUserId','detailUserId'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.textContent=userCode;
+  });
+
+  const pn=document.getElementById('profileName');
+  if(pn) pn.textContent=name;
+
+  const pm=document.getElementById('profileMobile');
+  if(pm) pm.textContent=mobile;
+
+  const av=document.getElementById('profileAvatar');
+  if(av) av.textContent=(name[0]||'U').toUpperCase();
+
+  const pb=document.getElementById('profileBalance');
+  if(pb) pb.textContent='PKR '+balance.toFixed(2);
+
+  const pe=document.getElementById('profileEarnings');
+  if(pe) pe.textContent='PKR '+totalEarned.toFixed(2);
+
+  const status=document.getElementById('profilePlanStatus');
+  if(status) status.textContent=profile.status || 'active';
+
+  // Profile table does not contain a plan column, so this remains
+  // the current UI default until user_plans is connected in the next step.
+  const plan=document.getElementById('profilePlan');
+  if(plan && !plan.textContent.trim()) plan.textContent='Free Plan';
+
+  // Keep the main balance display synchronized with the database value.
+  const bal=document.getElementById('balance');
+  if(bal) bal.textContent=balance.toFixed(2);
+
+  const wbal=document.getElementById('wbal');
+  if(wbal) wbal.textContent=Math.max(0,balance-lockedBonus).toFixed(2);
+
+  const lockedNote=document.getElementById('lockedBonusNote');
+  if(lockedNote){
+    if(lockedBonus>0){
+      lockedNote.style.display='block';
+      lockedNote.textContent='PKR '+lockedBonus.toFixed(2)+' referral bonus locked until you activate a paid plan.';
+    }else{
+      lockedNote.style.display='none';
+    }
+  }
+
+  const payment=document.getElementById('profilePaymentStatus');
+  if(payment && payment.textContent === '') payment.textContent='No pending payment';
+}
+
+function openAccountPanel(){
+  go('profile');
+  loadProfile();
+}
+
+let authMode = 'login';
+
+function switchAuthMode(){
+  authMode = authMode === 'login' ? 'signup' : 'login';
+
+  const title = document.getElementById('authTitle');
+  const subtitle = document.getElementById('authSubtitle');
+  const fields = document.getElementById('signupFields');
+  const loginBtn = document.getElementById('loginBtn');
+  const signupBtn = document.getElementById('signupBtn');
+  const switchBtn = document.getElementById('authSwitchBtn');
+  const pin = document.getElementById('authPin');
+
+  if(authMode === 'signup'){
+    title.textContent = 'Create Account';
+    subtitle.textContent = 'Enter your details to create your Earnly account.';
+    fields.style.display = 'block';
+    loginBtn.style.display = 'none';
+    signupBtn.style.display = 'block';
+    switchBtn.textContent = 'Already have an account? Login';
+    pin.placeholder = 'Password (minimum 6 characters)';
+    pin.autocomplete = 'new-password';
+  }else{
+    title.textContent = 'Login';
+    subtitle.textContent = 'Enter your email and password to access your Starch account.';
+    fields.style.display = 'none';
+    loginBtn.style.display = 'block';
+    signupBtn.style.display = 'none';
+    switchBtn.textContent = 'Create New Account';
+    pin.placeholder = 'Password';
+    pin.autocomplete = 'current-password';
+  }
+}
+
+async function signupDemo(){
+  const name=(document.getElementById('authName')?.value||'').trim();
+  const mobile=(document.getElementById('authMobile')?.value||'').trim();
+  const email=(document.getElementById('authEmail')?.value||'').trim();
+  const password=(document.getElementById('authPin')?.value||'').trim();
+
+  if(!name || !mobile || !email || password.length < 6){
+    toast('Enter name, mobile, email and a 6+ character password.');
+    return;
+  }
+
+  const btn=document.getElementById('signupBtn');
+  if(btn) btn.disabled=true;
+
+  try{
+    const {data,error}=await supabaseClient.auth.signUp({
+      email,
+      password,
+      options:{data:{name,mobile}}
+    });
+
+    if(error){
+      console.error('Signup error:', error);
+      toast(error.message);
+      return;
+    }
+
+    if(data?.user){
+      // If email confirmation is disabled, a session may already exist.
+      if(data.session){
+        const profile=await loadProfile();
+        if(profile){
+          toast('Account created successfully');
+          go('profile');
+          return;
+        }
+      }
+
+      toast('Account created. Please login with your email and password.');
+      document.getElementById('authName').value='';
+      document.getElementById('authMobile').value='';
+      switchAuthMode();
+    }
+  }catch(err){
+    console.error('Unexpected signup error:',err);
+    showSupabaseError(err, 'Account creation failed.');
+  }finally{
+    if(btn) btn.disabled=false;
+  }
+}
+
+async function loginDemo(){
+  // LOGIN MODE ONLY needs email + password.
+  const email=(document.getElementById('authEmail')?.value||'').trim();
+  const password=(document.getElementById('authPin')?.value||'').trim();
+
+  if(!email){
+    toast('Enter your email address.');
+    document.getElementById('authEmail')?.focus();
+    return;
+  }
+
+  if(!password){
+    toast('Enter your password.');
+    document.getElementById('authPin')?.focus();
+    return;
+  }
+
+  const btn=document.getElementById('loginBtn');
+  if(btn) btn.disabled=true;
+
+  try{
+    const {data,error}=await supabaseClient.auth.signInWithPassword({
+      email,
+      password
+    });
+
+    if(error){
+      console.error('Login error:',error);
+      toast(error.message);
+      return;
+    }
+
+    if(!data?.user){
+      toast('Login failed: no user session returned.');
+      return;
+    }
+
+    const profile=await loadProfile();
+
+    if(profile){
+      toast('Login successful');
+      go('profile');
+    }else{
+      // Auth succeeded but profile is missing.
+      // Do not pretend login failed.
+      toast('Login succeeded, but your profile record is missing.');
+    }
+  }catch(err){
+    console.error('Unexpected login error:',err);
+    showSupabaseError(err, 'Login failed.');
+  }finally{
+    if(btn) btn.disabled=false;
+  }
+}
+
+async function logoutDemo(){
+  try{
+    const {error}=await supabaseClient.auth.signOut();
+    if(error){
+      console.error('Logout error:',error);
+      toast('Logout failed: '+error.message);
+      return;
+    }
+  }catch(err){
+    console.error('Unexpected logout error:',err);
+    toast('Logout failed. Please try again.');
+    return;
+  }
+
+  await stopStarchLivePresence();
+  currentProfile=null;
+  localStorage.removeItem('earnly_demo_user');
+
+  const adminAccess=document.getElementById('adminAccessBtn');
+  const adminPanel=document.getElementById('adminPanel');
+  if(adminAccess) adminAccess.style.display='none';
+  if(adminPanel) adminPanel.style.display='none';
+
+  updateAccountUI();
+
+  // Reset login screen so the next user sees only email + password.
+  authMode='login';
+  switchAuthMode();
+
+  const email=document.getElementById('authEmail');
+  const password=document.getElementById('authPin');
+  if(email) email.value='';
+  if(password) password.value='';
+
+  go('profile');
+  toast('Logged out successfully');
+}
+
+function isAdminUser(user){
+  return String(user?.app_metadata?.role || '').toLowerCase()==='admin';
+}
+
+async function loadReferralUI(){
+  const section=document.getElementById('referralSection');
+  if(!section || !currentProfile) return;
+
+  section.style.display='block';
+  const activePlan=await starchLoadActivePlan();
+  const paid=!!activePlan && Number(activePlan.price||0)>0;
+  const paidView=document.getElementById('referralPaidView');
+  const freeView=document.getElementById('referralFreeView');
+
+  if(paid){
+    if(paidView) paidView.style.display='block';
+    if(freeView) freeView.style.display='none';
+    const code=document.getElementById('myReferralCode');
+    if(code) code.value=currentProfile.user_code||'';
+    await loadMyReferrals();
+  }else{
+    if(paidView) paidView.style.display='none';
+    if(freeView) freeView.style.display='block';
+    await loadOwnReferralStatus();
+  }
+}
+
+async function loadOwnReferralStatus(){
+  const status=document.getElementById('referralOwnStatus');
+  const input=document.getElementById('referralCodeInput');
+  const freeView=document.getElementById('referralFreeView');
+  if(!status) return;
+
+  const {data,error}=await supabaseClient
+    .from('referrals')
+    .select('id,status,referrer_id,created_at')
+    .eq('referred_user_id',currentProfile.id)
+    .maybeSingle();
+
+  if(error){
+    console.warn('Referral status error:',error.message);
+    return;
+  }
+
+  if(data){
+    // The new user should never see the referral-entry option again.
+    if(freeView) freeView.style.display='none';
+    if(input){input.value='';input.disabled=true;}
+    status.textContent='';
+    return;
+  }
+
+  if(freeView) freeView.style.display='block';
+  if(input){input.disabled=false;input.value=input.value||'';}
+  status.textContent='';
+}
+
+async function submitReferralCode(){
+  if(!currentProfile){toast('Please login first.');go('profile');return;}
+
+  const input=document.getElementById('referralCodeInput');
+  const code=(input?.value||'').trim().toUpperCase();
+  if(!code){toast('Enter a Code.');return;}
+
+  const btn=document.querySelector('#referralFreeView .full-btn');
+  if(btn){btn.disabled=true;btn.textContent='Checking…';}
+
+  try{
+    // The server validates the code and creates the referral only when it is real.
+    // It also grants the PKR 50 locked signup bonus atomically.
+    const {data,error}=await supabaseClient.rpc('submit_referral_code',{p_code:code});
+    if(error) throw error;
+    if(!data?.success) throw new Error('Code could not be submitted');
+
+    if(document.getElementById('referralFreeView')){
+      document.getElementById('referralFreeView').style.display='none';
+    }
+    if(input){input.value='';input.disabled=true;}
+    const bonus=Number(data.signup_bonus || 50);
+    toast('Referral code accepted — + PKR '+starchMoney(bonus)+' locked bonus');
+    await loadProfile();
+  }catch(err){
+    console.error('Referral submit error:',err);
+    toast(err?.message||'Invalid referral code');
+  }finally{
+    if(btn){btn.disabled=false;btn.textContent='Submit Referral Code';}
+  }
+}
+async function loadMyReferrals(){
+  const list=document.getElementById('referralList');
+  const reg=document.getElementById('refRegistered');
+  const paid=document.getElementById('refPaid');
+  const pending=document.getElementById('refPending');
+  const bonus=document.getElementById('refBonus');
+  if(!list) return;
+
+  const {data,error}=await supabaseClient.rpc('get_my_referrals');
+  if(error){
+    console.warn('Referral list error:',error.message);
+    list.innerHTML='<div style="font-size:11px;opacity:.6;margin-top:10px">Could not load referrals.</div>';
+    return;
+  }
+
+  const rows=data||[];
+  const paidRows=rows.filter(r=>r.status==='paid');
+  const totalBonus=paidRows.reduce((sum,r)=>sum+Number(r.bonus_amount||0),0);
+  if(reg) reg.textContent=String(rows.length);
+  if(paid) paid.textContent=String(paidRows.length);
+  if(pending) pending.textContent=String(rows.length-paidRows.length);
+  if(bonus) bonus.textContent='PKR '+starchMoney(totalBonus);
+
+  if(!rows.length){
+    list.innerHTML='<div style="font-size:11px;opacity:.6;margin-top:10px">No referrals yet. Share your code with a new user.</div>';
+    return;
+  }
+
+  list.innerHTML=rows.map(r=>{
+    const name=r.referred_name||'User';
+    const code=r.referred_code||'User';
+    const label=r.status==='paid'?'PAID':'PENDING';
+    const cls=r.status==='paid'?'referral-paid':'referral-pending';
+    const amount=r.status==='paid'?' • +PKR '+starchMoney(r.bonus_amount):'';
+    return `<div class="referral-item"><div><b>${escapeHtml(name)}</b><small>${escapeHtml(code)}${amount}</small></div><b class="${cls}">${label}</b></div>`;
+  }).join('');
+}
+
+function copyReferralCode(){
+  const code=document.getElementById('myReferralCode')?.value||'';
+  if(!code)return;
+  navigator.clipboard?.writeText(code);
+  toast('Referral code copied');
+}
+
+async function shareReferralCode(){
+  const code=document.getElementById('myReferralCode')?.value||'';
+  if(!code)return;
+  const text='Join Starch with my referral code: '+code;
+  try{
+    if(navigator.share){
+      await navigator.share({title:'Starch Referral',text});
+    }else{
+      await navigator.clipboard?.writeText(text);
+      toast('Referral message copied');
+    }
+  }catch(err){
+    if(err?.name!=='AbortError') toast('Could not share referral code');
+  }
+}
+
+async function initAdminPanel(){
+  // Keep startup fast: admin data is loaded only when the Admin page is opened.
+  return;
+}
+
+let adminDashboardLoading=false;
+async function loadAdminDashboard(){
+  if(adminDashboardLoading) return;
+  const user=await getCurrentUser();
+  if(!isAdminUser(user)) return;
+  adminDashboardLoading=true;
+  try{
+    await Promise.all([
+      loadAdminOverviewCounts(),
+      initAdminAccountStats()
+    ]);
+    // Load only the first visible management tab. Other tabs load on demand.
+    showAdminTab('deposits', document.querySelector('.admin-tab'));
+  }finally{
+    adminDashboardLoading=false;
+  }
+}
+
+async function loadAdminOverviewCounts(){
+  const jobs=[
+    ['deposits','adminHeroDeposits','status','pending'],
+    ['withdrawals','adminHeroWithdrawals','status','pending'],
+    ['referrals','adminHeroReferrals',null,null],
+    ['profiles','adminHeroUsers',null,null]
+  ];
+  const results=await Promise.all(jobs.map(async ([table,id,col,val])=>{
+    let q=supabaseClient.from(table).select('id',{count:'exact',head:true});
+    if(col) q=q.eq(col,val);
+    const {count,error}=await q;
+    return {id,count,error};
+  }));
+  results.forEach(r=>{const el=document.getElementById(r.id);if(el)el.textContent=r.error?'—':String(r.count||0);});
+}
+
+async function openAdminPanel(){
+  const user=await getCurrentUser();
+  if(!isAdminUser(user)){ toast('Admin access required'); return; }
+  await go('adminPanel');
+}
+
+async function loadAdminDeposits(){
+  const box=document.getElementById('adminDeposits');
+  const status=document.getElementById('adminStatus');
+  if(!box || !status) return;
+  status.textContent='Loading pending deposits…';
+  box.innerHTML='';
+
+  const {data,error}=await supabaseClient
+    .from('deposits')
+    .select('id,user_id,plan_id,amount,payment_method,account_number,proof_url,status,admin_note,created_at,profiles(name,user_code),plans(name)')
+    .eq('status','pending')
+    .order('created_at',{ascending:false});
+
+  if(error){
+    console.error('Admin deposit load error:',error);
+    status.textContent='Could not load deposits. Check the admin RLS policy.';
+    return;
+  }
+
+  const rows=data||[];
+  status.textContent=rows.length ? `${rows.length} pending deposit${rows.length===1?'':'s'}` : 'No pending deposits';
+  if(!rows.length){
+    box.innerHTML='<div class="row" style="margin-top:10px"><div>No pending deposits<small>New payment proofs will appear here.</small></div><b>—</b></div>';
+    return;
+  }
+
+  box.innerHTML=rows.map(row=>{
+    const name=row.profiles?.name || 'User';
+    const code=row.profiles?.user_code || row.user_id.slice(0,8);
+    const plan=row.plans?.name || 'Plan';
+    const dt=new Date(row.created_at).toLocaleString([], {month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+    const proof=row.proof_url ? `<button class="admin-btn admin-proof" onclick="viewDepositProof('${encodeURIComponent(row.proof_url)}')">View proof</button>` : '';
+    return `<div class="admin-item">
+      <div class="admin-item-head"><div><b>${escapeHtml(name)}</b><small>${escapeHtml(code)} • ${escapeHtml(plan)} • PKR ${starchMoney(row.amount)}</small><small>${escapeHtml(row.payment_method)} • ${escapeHtml(row.account_number||'')} • ${dt}</small></div>${proof}</div>
+      <div class="admin-actions" style="margin-top:10px">
+        <button class="admin-btn admin-approve" onclick="reviewDeposit(${row.id},true)">Approve</button>
+        <button class="admin-btn admin-reject" onclick="reviewDeposit(${row.id},false)">Reject</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function escapeHtml(v){
+  return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+}
+
+async function viewDepositProof(encodedPath){
+  try{
+    const path=decodeURIComponent(encodedPath);
+    const {data,error}=await supabaseClient.storage.from('deposit-proofs').createSignedUrl(path,300);
+    if(error) throw error;
+    if(data?.signedUrl) window.open(data.signedUrl,'_blank','noopener');
+    else toast('Could not open proof');
+  }catch(err){
+    console.error('Proof URL error:',err);
+    toast('Could not open proof. Check admin storage policy.');
+  }
+}
+
+async function reviewDeposit(id,approve){
+  const note=prompt(approve?'Admin note (optional):':'Reason for rejection (optional):','');
+  if(note===null) return;
+
+  try{
+    const {data,error}=await supabaseClient.rpc('admin_review_deposit',{
+      p_deposit_id:id,
+      p_approve:approve,
+      p_admin_note:note.trim() || null
+    });
+    if(error) throw error;
+    if(!data?.success) throw new Error('Review was not completed');
+    toast(approve?'Deposit approved — plan activated':'Deposit rejected');
+    await loadAdminDeposits();
+  }catch(err){
+    console.error('Deposit review error:',err);
+    toast(err?.message || 'Could not review deposit');
+  }
+}
+
+async function loadAdminWithdrawals(){
+  const box=document.getElementById('adminWithdrawals');
+  const status=document.getElementById('adminWithdrawalStatus');
+  if(!box || !status) return;
+
+  status.textContent='Loading pending withdrawals…';
+  box.innerHTML='';
+
+  const {data,error}=await supabaseClient
+    .from('withdrawals')
+    .select('id,user_id,amount,payment_method,account_number,status,admin_note,created_at,profiles(name,user_code)')
+    .eq('status','pending')
+    .order('created_at',{ascending:false});
+
+  if(error){
+    console.error('Admin withdrawal load error:',error);
+    status.textContent='Could not load withdrawals. Check the admin RLS policy.';
+    return;
+  }
+
+  const rows=data||[];
+  status.textContent=rows.length
+    ? `${rows.length} pending withdrawal${rows.length===1?'':'s'}`
+    : 'No pending withdrawals';
+
+  if(!rows.length){
+    box.innerHTML='<div class="row" style="margin-top:10px"><div>No pending withdrawals<small>New withdrawal requests will appear here.</small></div><b>—</b></div>';
+    return;
+  }
+
+  box.innerHTML=rows.map(row=>{
+    const name=row.profiles?.name || 'User';
+    const code=row.profiles?.user_code || String(row.user_id||'').slice(0,8);
+    const dt=new Date(row.created_at).toLocaleString([], {month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+    return `<div class="admin-item">
+      <div class="admin-item-head">
+        <div>
+          <b>${escapeHtml(name)}</b>
+          <small>${escapeHtml(code)} • PKR ${starchMoney(row.amount)}</small>
+          <small>${escapeHtml(row.payment_method)} • ${escapeHtml(row.account_number||'')} • ${dt}</small>
+        </div>
+      </div>
+      <div class="admin-actions" style="margin-top:10px">
+        <button class="admin-btn admin-approve" onclick="reviewWithdrawal(${row.id},true)">Approve</button>
+        <button class="admin-btn admin-reject" onclick="reviewWithdrawal(${row.id},false)">Reject</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function reviewWithdrawal(id,approve){
+  const note=prompt(
+    approve ? 'Admin note (optional):' : 'Reason for rejection (optional):',
+    ''
+  );
+  if(note===null) return;
+
+  try{
+    const {data,error}=await supabaseClient.rpc('admin_review_withdrawal',{
+      p_withdrawal_id:id,
+      p_approve:approve,
+      p_admin_note:note.trim() || null
+    });
+
+    if(error) throw error;
+    if(!data?.success) throw new Error('Withdrawal review was not completed');
+
+    toast(approve
+      ? 'Withdrawal approved — balance deducted'
+      : 'Withdrawal rejected');
+
+    await loadAdminWithdrawals();
+    await loadProfile();
+  }catch(err){
+    console.error('Withdrawal review error:',err);
+    toast(err?.message || 'Could not review withdrawal');
+  }
+}
+
+
+/* ===== ADMIN ACCOUNT DATE ANALYTICS ===== */
+let adminStatsLifetime=false;
+let adminStatsLoading=false;
+
+function adminLocalDateValue(date=new Date()){
+  const y=date.getFullYear();
+  const m=String(date.getMonth()+1).padStart(2,'0');
+  const d=String(date.getDate()).padStart(2,'0');
+  return `${y}-${m}-${d}`;
+}
+
+function adminDateBounds(value){
+  const parts=String(value||'').split('-').map(Number);
+  if(parts.length!==3 || parts.some(Number.isNaN)) return null;
+  const start=new Date(parts[0],parts[1]-1,parts[2],0,0,0,0);
+  const end=new Date(parts[0],parts[1]-1,parts[2]+1,0,0,0,0);
+  return {start:start.toISOString(),end:end.toISOString(),label:start.toLocaleDateString([], {day:'2-digit',month:'short',year:'numeric'})};
+}
+
+function setAdminStatsLifetime(){
+  adminStatsLifetime=true;
+  const btn=document.getElementById('adminStatsLifetime');
+  if(btn) btn.classList.add('active');
+  const input=document.getElementById('adminStatsDate');
+  if(input) input.disabled=true;
+  loadAdminAccountStats();
+}
+
+async function loadAdminAccountStats(){
+  if(adminStatsLoading) return;
+  const user=await getCurrentUser();
+  if(!isAdminUser(user)) return;
+  adminStatsLoading=true;
+  try{
+    const input=document.getElementById('adminStatsDate');
+    const bounds=adminDateBounds(input?.value);
+    const rangeLabel=document.getElementById('adminStatsRangeLabel');
+    if(rangeLabel) rangeLabel.textContent=adminStatsLifetime ? 'Lifetime • all registered accounts' : ('New accounts on '+(bounds?.label||'selected date'));
+
+    /* The SQL function accepts one argument (p_date) and returns both
+       selected-date and lifetime statistics in the same response. */
+    const {data,error}=await supabaseClient.rpc('admin_account_stats',{
+      p_date: adminStatsLifetime ? null : (input?.value || null)
+    });
+    if(error) throw error;
+    const result=Array.isArray(data)?(data[0]||{}):(data||{});
+    const row=adminStatsLifetime ? (result.lifetime||{}) : (result.selected_date||{});
+    const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=String(v??0)};
+    set('adminNewAccountCount',adminStatsLifetime ? (row.users ?? 0) : (row.new_users ?? 0));
+    set('adminPlanFree',row.free);
+    set('adminPlanStarter',row.starter);
+    set('adminPlanPro',row.pro);
+    set('adminPlanPremium',row.premium);
+  }catch(err){
+    console.error('Admin account analytics error:',err);
+    const msg=String(err?.message||'');
+    if(msg.toLowerCase().includes('admin_account_stats')){
+      toast('Run the new admin statistics SQL once in Supabase');
+    }else{
+      toast(msg || 'Could not load account statistics');
+    }
+  }finally{adminStatsLoading=false;}
+}
+
+function initAdminAccountStats(){
+  const input=document.getElementById('adminStatsDate');
+  if(input && !input.value) input.value=adminLocalDateValue();
+  adminStatsLifetime=false;
+  if(input) input.disabled=false;
+  document.getElementById('adminStatsLifetime')?.classList.remove('active');
+  loadAdminAccountStats();
+}
+
+async function initAuth(){
+  try{
+    const {data:{session}, error}=await supabaseClient.auth.getSession();
+    if(error){
+      showSupabaseError(error, 'Supabase connection failed.');
+      updateAccountUI();
+      return;
+    }
+
+    if(session) { await loadProfile(); await startStarchLivePresence(); }
+    else { await stopStarchLivePresence(); await stopUserHistoryRealtime(); updateAccountUI(); }
+    await initAdminPanel();
+    await updateBottomNavForRole();
+    if(session && isAdminUser(session.user)) await go('adminNotifications');
+
+    supabaseClient.auth.onAuthStateChange((event,session)=>{
+      setTimeout(async ()=>{
+        if(session) { await loadProfile(); await startStarchLivePresence(); await initAdminPanel(); await updateBottomNavForRole(); if(isAdminUser(session.user)) await go('adminNotifications'); }
+        else{
+          await stopStarchLivePresence();
+          await stopUserHistoryRealtime();
+          currentProfile=null;
+          localStorage.removeItem('earnly_demo_user');
+          updateAccountUI();
+          await initAdminPanel();
+          await updateBottomNavForRole();
+        }
+      },0);
+    });
+  }catch(err){
+    showSupabaseError(err, 'Supabase connection failed.');
+    updateAccountUI();
+  }
+}
+
+document.addEventListener('DOMContentLoaded',()=>{ switchAuthMode(); initAuth(); });
+
+let adminNotifyUsersCache=[];let adminNotifySelectedIds=new Set();
+async function loadAdminNotifyUsers(){const box=document.getElementById('adminNotifyUsers');if(!box)return;const user=await getCurrentUser();if(!isAdminUser(user)){toast('Admin access required');return;}if(adminNotifyUsersCache.length){renderAdminNotifyUsers();return;}const {data,error}=await supabaseClient.from('profiles').select('id,user_code,name,mobile').order('created_at',{ascending:false});if(error){box.innerHTML='<div class="admin-status">Could not load users.</div>';return;}adminNotifyUsersCache=data||[];renderAdminNotifyUsers();}
+function renderAdminNotifyUsers(){const box=document.getElementById('adminNotifyUsers');if(!box)return;const q=(document.getElementById('adminNotifySearch')?.value||'').trim().toLowerCase();const rows=adminNotifyUsersCache.filter(u=>!q||[u.name,u.user_code,u.mobile,u.id].some(v=>String(v||'').toLowerCase().includes(q)));if(!rows.length){box.innerHTML='<div class="admin-status">No users found.</div>';updateAdminNotifySelected();return;}box.innerHTML=rows.map(u=>{const checked=adminNotifySelectedIds.has(u.id)?' checked':'';return `<label class="admin-notify-user"><input type="checkbox"${checked} onchange="adminNotifyToggle('${u.id}',this.checked)"><span class="admin-notify-user-info"><b>${escapeHtml(u.name||'User')}</b><small>${escapeHtml(u.user_code||'')} • ${escapeHtml(u.mobile||'No mobile')}</small></span></label>`}).join('');updateAdminNotifySelected();}
+function adminNotifyModeChanged(){const mode=document.getElementById('adminNotifyMode')?.value||'selected';const actions=document.getElementById('adminNotifySelectActions'),search=document.getElementById('adminNotifySearch'),list=document.getElementById('adminNotifyUsers');if(mode==='all'){adminNotifySelectAll();if(actions)actions.style.display='none';if(search)search.style.display='none';if(list)list.style.display='none';}else{if(actions)actions.style.display='grid';if(search)search.style.display='block';if(list)list.style.display='block';adminNotifyClearSelection();}}
+function adminNotifyToggle(id,checked){if(checked)adminNotifySelectedIds.add(id);else adminNotifySelectedIds.delete(id);updateAdminNotifySelected();}
+function adminNotifySelectAll(){adminNotifySelectedIds=new Set(adminNotifyUsersCache.map(u=>u.id));renderAdminNotifyUsers();}
+function adminNotifyClearSelection(){adminNotifySelectedIds.clear();renderAdminNotifyUsers();}
+function updateAdminNotifySelected(){const el=document.getElementById('adminNotifySelected');if(el)el.textContent=adminNotifySelectedIds.size+' user'+(adminNotifySelectedIds.size===1?'':'s')+' selected';}
+function adminClearNotificationForm(){const t=document.getElementById('adminNotifyTitle'),m=document.getElementById('adminNotifyMessage');if(t)t.value='';if(m)m.value='';adminNotifyClearSelection();}
+async function adminSendNotification(){const user=await getCurrentUser();if(!isAdminUser(user)){toast('Admin access required');return;}const title=(document.getElementById('adminNotifyTitle')?.value||'').trim();const message=(document.getElementById('adminNotifyMessage')?.value||'').trim();if(!title)return toast('Enter a notification heading');if(!message)return toast('Enter a notification message');if(!adminNotifySelectedIds.size)return toast('Select at least one user');const btn=document.querySelector('#adminNotifications .admin-notify-actions .secondary');if(btn){btn.disabled=true;btn.textContent='Sending…';}try{const {data,error}=await supabaseClient.rpc('admin_send_notification',{p_user_ids:Array.from(adminNotifySelectedIds),p_title:title,p_message:message});if(error)throw error;toast('Notification sent to '+Number(data?.sent_count||adminNotifySelectedIds.size)+' user'+(Number(data?.sent_count||adminNotifySelectedIds.size)===1?'':'s'));document.getElementById('adminNotifyTitle').value='';document.getElementById('adminNotifyMessage').value='';adminNotifySelectedIds.clear();renderAdminNotifyUsers();}catch(err){console.error('Admin notification error:',err);toast(err?.message||'Could not send notification');}finally{if(btn){btn.disabled=false;btn.textContent='Send Notification';}}}
+
+async function loadNotifications(){
+  const list=document.getElementById('notificationList');
+  const label=document.getElementById('notificationCountLabel');
+  const dot=document.getElementById('notificationDot');
+  if(!currentProfile){
+    if(list) list.innerHTML='<div class="notify-item">Login to view notifications.</div>';
+    if(label) label.textContent='0 unread';
+    if(dot) dot.style.display='none';
+    return;
+  }
+  const {data,error}=await supabaseClient.from('notifications').select('id,title,message,is_read,created_at').eq('user_id',currentProfile.id).order('created_at',{ascending:false}).limit(50);
+  if(error){ console.warn('Notification load error:',error.message); return; }
+  const rows=data||[], unread=rows.filter(x=>!x.is_read).length;
+  if(label) label.textContent=unread+' unread';
+  if(dot) dot.style.display=unread?'block':'none';
+  if(!list) return;
+  if(!rows.length){ list.innerHTML='<div class="notify-item">No notifications yet.</div>'; return; }
+  list.innerHTML=rows.map(r=>{const dt=new Date(r.created_at).toLocaleString([], {month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});return `<div class="notify-item ${r.is_read?'':'unread'}"><b>${escapeHtml(r.title)}</b><div>${escapeHtml(r.message)}</div><small>${dt}</small>${r.is_read?'':'<div class="notify-actions"><button class="admin-btn" onclick="markNotificationRead('+r.id+')">Mark read</button></div>'}</div>`}).join('');
+}
+async function markNotificationRead(id){
+  const {error}=await supabaseClient.from('notifications').update({is_read:true}).eq('id',id).eq('user_id',currentProfile.id);
+  if(error){toast(error.message);return;} await loadNotifications();
+}
+async function markAllNotificationsRead(){
+  if(!currentProfile)return;
+  const {error}=await supabaseClient.from('notifications').update({is_read:true}).eq('user_id',currentProfile.id).eq('is_read',false);
+  if(error) toast(error.message); else await loadNotifications();
+}
+async function loadTransactions(){
+  const box=document.getElementById('transactionHistory'); if(!box)return;
+  if(!currentProfile){box.innerHTML='<div class="row"><div>Login to view transactions.</div><b>—</b></div>';return;}
+  const {data,error}=await supabaseClient.from('transactions').select('id,type,amount,balance_before,balance_after,reference_id,description,created_at').eq('user_id',currentProfile.id).order('created_at',{ascending:false}).limit(50);
+  if(error){box.innerHTML='<div class="row"><div>Could not load transactions<small>'+escapeHtml(error.message)+'</small></div><b>—</b></div>';return;}
+  const rows=data||[]; if(!rows.length){box.innerHTML='<div class="row"><div>No transactions yet.</div><b>—</b></div>';return;}
+  box.innerHTML=rows.map(r=>{const positive=['ad_reward','referral_bonus','deposit','referral_signup_bonus'].includes(r.type);const label=r.type.replaceAll('_',' ').replace(/\\b\\w/g,c=>c.toUpperCase());const dt=new Date(r.created_at).toLocaleString([], {month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});return `<div class="row"><div>${escapeHtml(label)}<small>${dt}${r.description?' • '+escapeHtml(r.description):''}</small></div><b class="${positive?'plus':'minus'}">${positive?'+':'−'} PKR ${starchMoney(r.amount)}</b></div>`}).join('');
+}
+function showNotifications(){ if(!currentProfile){toast('Please login first');go('profile');return;} go('notifications'); loadNotifications(); }
+function syncTopProfile(){
+  const u=getDemoUser(); const avatar=document.getElementById('profileTopAvatar');
+  if(avatar) avatar.textContent=((u?.name||'U').trim()[0]||'U').toUpperCase();
+  loadNotifications();
+}
+function showAdminTab(name,btn){
+  document.querySelectorAll('.admin-section').forEach(x=>x.classList.remove('active'));
+  document.getElementById('adminTab-'+name)?.classList.add('active');
+  document.querySelectorAll('.admin-tab').forEach(x=>x.classList.remove('active')); btn?.classList.add('active');
+  if(name==='deposits') loadAdminDeposits();
+  if(name==='withdrawals') loadAdminWithdrawals();
+  if(name==='users') loadAdminUsers();
+  if(name==='referrals') loadAdminReferrals();
+}
+let adminUsersCache=[];
+async function loadAdminUsers(){
+  const box=document.getElementById('adminUsers'); if(!box)return;
+  const {data,error}=await supabaseClient.from('profiles').select('id,user_code,name,mobile,balance,total_earned,total_withdrawn,status,created_at,user_plans(status,plans(name,price))').order('created_at',{ascending:false});
+  if(error){box.innerHTML='<div class="row"><div>Could not load users<small>'+escapeHtml(error.message)+'</small></div><b>—</b></div>';return;}
+  adminUsersCache=data||[]; renderAdminUsers();
+}
+function renderAdminUsers(){
+  const box=document.getElementById('adminUsers'), q=(document.getElementById('adminUserSearch')?.value||'').trim().toLowerCase(); if(!box)return;
+  const rows=adminUsersCache.filter(r=>!q||[r.name,r.user_code,r.mobile].some(v=>String(v||'').toLowerCase().includes(q)));
+  const paid=adminUsersCache.filter(r=>(r.user_plans||[]).some(up=>up.status==='active'&&Number(up.plans?.price||0)>0)).length;
+  document.getElementById('adminUserCount').textContent=String(adminUsersCache.length); document.getElementById('adminPaidUserCount').textContent=String(paid);
+  box.innerHTML=rows.length?rows.map(r=>{const plan=(r.user_plans||[]).find(up=>up.status==='active')?.plans?.name||'Free';return `<div class="admin-item"><b>${escapeHtml(r.name)}</b><small>${escapeHtml(r.user_code)} • ${escapeHtml(r.mobile||'No mobile')}</small><small>Balance PKR ${starchMoney(r.balance)} • Earned PKR ${starchMoney(r.total_earned)} • Withdrawn PKR ${starchMoney(r.total_withdrawn)}</small><small>Plan: ${escapeHtml(plan)} • ${escapeHtml(r.status)}</small></div>`}).join(''):'<div class="row"><div>No users found.</div><b>—</b></div>';
+}
+async function loadAdminReferrals(){
+  const box=document.getElementById('adminReferrals'); if(!box)return;
+  const {data,error}=await supabaseClient.from('referrals').select('id,referrer_id,referred_user_id,status,bonus_amount,created_at,paid_at,referrer:profiles!referrals_referrer_id_fkey(name,user_code),referred:profiles!referrals_referred_user_id_fkey(name,user_code)').order('created_at',{ascending:false});
+  if(error){box.innerHTML='<div class="row"><div>Could not load referrals<small>'+escapeHtml(error.message)+'</small></div><b>—</b></div>';return;}
+  const rows=data||[], paid=rows.filter(r=>r.status==='paid'), pending=rows.length-paid.length, bonus=paid.reduce((a,r)=>a+Number(r.bonus_amount||0),0);
+  document.getElementById('adminRefCount').textContent=String(rows.length); document.getElementById('adminRefPending').textContent=String(pending); document.getElementById('adminRefPaid').textContent=String(paid.length); document.getElementById('adminRefBonus').textContent='PKR '+starchMoney(bonus);
+  box.innerHTML=rows.length?rows.map(r=>`<div class="admin-item"><b>${escapeHtml(r.referrer?.name||'User')} → ${escapeHtml(r.referred?.name||'User')}</b><small>${escapeHtml(r.referrer?.user_code||'')} → ${escapeHtml(r.referred?.user_code||'')}</small><small>${String(r.status).toUpperCase()} • PKR ${starchMoney(r.bonus_amount)} • ${new Date(r.created_at).toLocaleString([], {month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'})}</small></div>`).join(''):'<div class="row"><div>No referrals yet.</div><b>—</b></div>';
+}
+
+</script>
+<script>
+/* ===== FINAL STARCH AD + HOME STATS FIX ===== */
+
+function starchMoney(v){
+  return Number(v || 0).toFixed(2);
+}
+
+function starchSet(id, value){
+  const el = document.getElementById(id);
+  if(el) el.textContent = value;
+}
+
+function starchTodayStart(){
+  const d = new Date();
+  d.setHours(0,0,0,0);
+  return d.toISOString();
+}
+
+async function starchLoadTodayStats(){
+  if(!currentProfile){
+    starchSet('today','0.00');
+    starchSet('homeTotalEarnings','PKR 0.00');
+    starchSet('homeAdsCount','0 / 6');
+    starchSet('watched','0');
+    starchSet('remaining','6');
+    starchSet('adsActivityLabel','0 of 6');
+    const p=document.getElementById('progress'); if(p) p.style.width='0%';
+    return;
+  }
+
+  starchSet('homeTotalEarnings','PKR '+starchMoney(currentProfile.total_earned));
+
+  const [planResult, adResult]=await Promise.all([
+    supabaseClient
+      .from('user_plans')
+      .select('status,started_at,expires_at,plans(name,reward_per_ad,daily_ad_limit,is_active,price)')
+      .eq('user_id',currentProfile.id)
+      .eq('status','active')
+      .order('started_at',{ascending:false})
+      .limit(1)
+      .maybeSingle(),
+    supabaseClient
+      .from('ad_completions')
+      .select('id,reward,completed_at')
+      .eq('user_id',currentProfile.id)
+      .order('completed_at',{ascending:false})
+      .limit(100)
+  ]);
+
+  const plan=planResult.data?.plans;
+  if(plan){
+    setActivePlan(plan.name+' Plan','PKR '+starchMoney(plan.reward_per_ad),'6 ads/day');
+  }else{
+    setActivePlan('Free Plan','PKR 2','6 ads/day');
+  }
+
+  if(adResult.error){
+    console.warn('Ad stats could not be loaded:',adResult.error.message);
+    starchSet('today','0.00'); starchSet('homeAdsCount','0 / 6'); starchSet('watched','0'); starchSet('remaining','6'); starchSet('adsActivityLabel','0 of 6');
+    const p=document.getElementById('progress'); if(p) p.style.width='0%';
+    return;
+  }
+
+  const allRows=adResult.data||[];
+  const now=new Date();
+  const pkDate=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Karachi',year:'numeric',month:'2-digit',day:'2-digit'}).format(now);
+  const dayStart=new Date(pkDate+'T00:00:00+05:00');
+  let countStart=dayStart;
+  if(plan?.price>0 && planResult.data?.started_at){
+    const started=new Date(planResult.data.started_at);
+    if(started>countStart) countStart=started;
+  }
+
+  const rows=allRows.filter(row=>new Date(row.completed_at)>=countStart);
+  const todayEarned=rows.reduce((sum,row)=>sum+Number(row.reward||0),0);
+  const watched=rows.length;
+  const limit=6;
+  const remaining=Math.max(0,limit-watched);
+
+  starchSet('today',starchMoney(todayEarned));
+  starchSet('homeAdsCount',Math.min(watched,limit)+' / '+limit);
+  starchSet('watched',String(watched));
+  starchSet('remaining',String(remaining));
+  starchSet('adsActivityLabel',Math.min(watched,limit)+' of '+limit);
+  const progress=document.getElementById('progress'); if(progress) progress.style.width=(Math.min(watched,limit)/limit*100)+'%';
+
+  const btn=document.getElementById('watchBtn');
+  if(btn){
+    btn.disabled=watched>=limit;
+    btn.textContent=watched>=limit?'Daily limit reached':'Start Ad • Earn';
+  }
+
+  const history=document.getElementById('adHistory');
+  if(history){
+    if(!rows.length){
+      history.innerHTML='<div class="row"><div>No ads completed yet<small>Your daily ad count resets at 12:00 AM (Pakistan time).</small></div><b>—</b></div>';
+    }else{
+      history.innerHTML=rows.slice(0,10).map(row=>{
+        const dt=new Date(row.completed_at);
+        const when=dt.toLocaleString([], {month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+        return '<div class="row"><div>Ad completed<small>'+when+'</small></div><b class="plus">+ PKR '+starchMoney(row.reward)+'</b></div>';
+      }).join('');
+    }
+  }
+}
+
+async function starchRefreshDashboard(){
+  if(!currentProfile){
+    starchLoadTodayStats();
+    return;
+  }
+
+  const {data,error}=await supabaseClient
+    .from('profiles')
+    .select('id,user_code,name,mobile,balance,locked_bonus,total_earned,total_withdrawn,status,created_at')
+    .eq('id', currentProfile.id)
+    .single();
+
+  if(!error && data){
+    currentProfile=data;
+
+    const bal=Number(data.balance || 0);
+    starchSet('balance',starchMoney(bal));
+    starchSet('wbal',starchMoney(Math.max(0,bal-Number(data.locked_bonus||0))));
+    starchSet('profileBalance','PKR '+starchMoney(bal));
+    starchSet('profileEarnings','PKR '+starchMoney(data.total_earned));
+
+    await Promise.all([starchLoadTodayStats(), starchLoadDepositHistory(), starchLoadWithdrawalHistory()]);
+  }else{
+    await starchLoadTodayStats();
+    await starchLoadWithdrawalHistory();
+  }
+}
+
+/* Fast startup: the HTML starts with zero values.
+   loadProfile() fills the real profile and today's ad statistics in one
+   coordinated startup flow. No delayed duplicate dashboard request. */
+</script>
+</body>
+</html>
